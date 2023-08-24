@@ -153,7 +153,7 @@ engineDA <- function(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly)
 	# check length lb and ub
 	# if user only define one lb and ub, then repeat it until the dimension
   #Entry point for initialization
-  aaa = c(10^(1:50))
+  aaa = c(10^(1:(c_length)))
   trajectory = list()
   if(length(lowerBound)==1 & length(upperBound)==1){
 		lowerBound <- rep(lowerBound,ncol(dragonfly))
@@ -326,19 +326,19 @@ engineDA <- function(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly)
 		curve[t] <- Ffood
 		trajectory[[t]] <- food
 		# #Entry point for Mitchell
-		# for(xxx in 1:(length(aaa)-1)){
-		#   aaa[xxx] = aaa[xxx+1]
-		# }
-		# aaa[length(aaa)] = Ffood
-		# if(all(abs(diff(aaa))<= 5) == T){
-		#   print(Ffood)
-		#   print(t)
-		#   old_iter = t
-		#   t = maxIter
-		#   break
-		# } else{
-		#   old_iter = t
-		# }
+		for(xxx in 1:(length(aaa)-1)){
+		  aaa[xxx] = aaa[xxx+1]
+		}
+		aaa[length(aaa)] = Ffood
+		if(all(abs(diff(aaa))<= c_value) == T){
+		  print(Ffood)
+		  print(t)
+		  old_iter = t
+		  t = maxIter
+		  break
+		} else{
+		  old_iter = t
+		}
 		old_iter = t
 		setTxtProgressBar(progressbar, t)
 	}

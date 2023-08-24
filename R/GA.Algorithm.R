@@ -152,7 +152,7 @@ GA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 
 engineGA <- function(FUN, optimType, maxIter, lowerBound, upperBound, Pm, Pc, candidate){
   #Entry point for initialization
-  aaa = c(10^(1:50))
+  aaa = c(10^(1:(c_length)))
   trajectory = list()
   # check length lb and ub
 	# if user only define one lb and ub, then repeat it until the dimension
@@ -238,19 +238,19 @@ engineGA <- function(FUN, optimType, maxIter, lowerBound, upperBound, Pm, Pc, ca
 		curve[t] <- FbestPos
 		trajectory[[t]] = bestPos
 		# #Entry point for Mitchell
-		# for(xxx in 1:(length(aaa)-1)){
-		#   aaa[xxx] = aaa[xxx+1]
-		# }
-		# aaa[length(aaa)] = FbestPos
-		# if(all(abs(diff(aaa))<= 0.001) == T){
-		#   print(FbestPos)
-		#   print(t)
-		#   old_iter = t
-		#   t = maxIter
-		#   break
-		# } else{
-		#   old_iter = t
-		# }
+		for(xxx in 1:(length(aaa)-1)){
+		  aaa[xxx] = aaa[xxx+1]
+		}
+		aaa[length(aaa)] = FbestPos
+		if(all(abs(diff(aaa))<= c_value) == T){
+		  print(FbestPos)
+		  print(t)
+		  old_iter = t
+		  t = maxIter
+		  break
+		} else{
+		  old_iter = t
+		}
 		old_iter = t
 		setTxtProgressBar(progressbar, t)
 	}

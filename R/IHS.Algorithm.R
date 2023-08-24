@@ -243,7 +243,7 @@ engineHS <- function(FUN, optimType, maxIter, lowerBound, upperBound, PAR, HMCR,
 		  aaa[xxx] = aaa[xxx+1]
 		}
 		aaa[length(aaa)] = FbestPos
-		if(all(abs(diff(aaa))<= 0.00000000000000000000000000000000000000001) == T){
+		if(all(abs(diff(aaa))<= c_value) == T){
 		  old_iter = t
 		  t = maxIter
 		  break

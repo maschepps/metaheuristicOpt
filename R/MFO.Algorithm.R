@@ -143,7 +143,7 @@ MFO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 
 engineMFO <- function(FUN, optimType, maxIter, lowerBound, upperBound, moth){
   #Entry point for initialization
-  aaa = c(10^(1:50))
+  aaa = c(10^(1:(c_length)))
   trajectory = list()
   # calculate the moth fitness
 	mothFitness <- calcFitness(FUN, optimType, moth)
@@ -215,17 +215,17 @@ engineMFO <- function(FUN, optimType, maxIter, lowerBound, upperBound, moth){
 		trajectory[[t]] = bestPos
 		curve[t] <- FbestPos
 		# #Entry point for Mitchell
-		# for(xxx in 1:(length(aaa)-1)){
-		#   aaa[xxx] = aaa[xxx+1]
-		# }
-		# aaa[length(aaa)] = FbestPos
-		# if(all(abs(diff(aaa))<= 0.001) == T){
-		#   old_iter = t
-		#   t = maxIter
-		#   break
-		# } else{
-		#   old_iter = t
-		# }
+		for(xxx in 1:(length(aaa)-1)){
+		  aaa[xxx] = aaa[xxx+1]
+		}
+		aaa[length(aaa)] = FbestPos
+		if(all(abs(diff(aaa))<= c_value) == T){
+		  old_iter = t
+		  t = maxIter
+		  break
+		} else{
+		  old_iter = t
+		}
 		old_iter = t
 		setTxtProgressBar(progressbar, t)
 	}

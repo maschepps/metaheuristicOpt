@@ -174,7 +174,7 @@ PSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 engine.PSO <- function(FUN, optimType, maxIter, lowerBound, upperBound, Vmax, ci, cg, w, Gbest, Lbest, particles, velocity){
 	#Start point for mitchell
   #Entry point for initialization
-  aaa = c(10^(1:50))
+  aaa = c(10^(1:(c_length)))
   FLbest <- calcFitness(FUN, optimType, Lbest)
 	FGbest <- optimType*FUN(Gbest)
 	curve <- c()
@@ -222,19 +222,19 @@ engine.PSO <- function(FUN, optimType, maxIter, lowerBound, upperBound, Vmax, ci
 			}
 		}
 	  # #Entry point for Mitchell
-	  # for(xxx in 1:(length(aaa)-1)){
-	  #   aaa[xxx] = aaa[xxx+1]
-	  # }
-	  # aaa[length(aaa)] = FGbest
-	  # if(all(abs(diff(aaa))<= 0.001) == T){
-	  #   print(FGbest)
-	  #   print(t)
-	  #   old_iter = t
-	  #   t = maxIter
-	  #   break
-	  # } else{
-	  #   old_iter = t
-	  # }
+	  for(xxx in 1:(length(aaa)-1)){
+	    aaa[xxx] = aaa[xxx+1]
+	  }
+	  aaa[length(aaa)] = FGbest
+	  if(all(abs(diff(aaa))<= c_value) == T){
+	    print(FGbest)
+	    print(t)
+	    old_iter = t
+	    t = maxIter
+	    break
+	  } else{
+	    old_iter = t
+	  }
     old_iter = t
 		curve[t] <- FGbest
 		trajectory[[t]] = Gbest

@@ -161,7 +161,7 @@ engineBA <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidateS
                      maxFrequency, minFrequency, gama, alpha){
   #Start point for mitchell
   #Entry point for initialization
-  aaa = c(10^(1:50))
+  aaa = c(10^(1:(c_length)))
   trajectory = list()
   numVar <- ncol(candidateSolution)
   numPopulation <- nrow(candidateSolution)
@@ -201,17 +201,17 @@ engineBA <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidateS
     curve[t] = bestFitness
     trajectory[[t]] = best
     # #Entry point for Mitchell
-    # for(xxx in 1:(length(aaa)-1)){
-    #   aaa[xxx] = aaa[xxx+1]
-    # }
-    # aaa[length(aaa)] = bestFitness
-    # if(all(abs(diff(aaa))<= 0.001) == T){
-    #   old_iter = t
-    #   t = maxIter
-    #   break
-    # } else{
-    #   old_iter = t
-    # }
+    for(xxx in 1:(length(aaa)-1)){
+      aaa[xxx] = aaa[xxx+1]
+    }
+    aaa[length(aaa)] = bestFitness
+    if(all(abs(diff(aaa))<= c_value) == T){
+      old_iter = t
+      t = maxIter
+      break
+    } else{
+      old_iter = t
+    }
     old_iter = t
     
     prob <- frFitness < bestFitness & runif(numPopulation) < A

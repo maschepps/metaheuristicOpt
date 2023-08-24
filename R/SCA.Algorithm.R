@@ -201,7 +201,7 @@ engine.SCA <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidat
 		  aaa[xxx] = aaa[xxx+1]
 		}
 		aaa[length(aaa)] = FbestPos
-		if(all(abs(diff(aaa))<= 0.0000000000000000000000000000000000000000001) == T){
+		if(all(abs(diff(aaa))<= c_value) == T){
 		  print(FbestPos)
 		  print(t)
 		  old_iter = t

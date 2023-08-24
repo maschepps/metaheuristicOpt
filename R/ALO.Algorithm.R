@@ -141,7 +141,7 @@ ALO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 engine.ALO <- function(FUN, optimType, maxIter, lowerBound, upperBound, antlion, ant){
   #Start point for mitchell
   #Entry point for initialization
-  aaa = c(10^(1:50))
+  aaa = c(10^(1:(c_length)))
   trajectory = list()
   # calculate the antlion fitness
 	antlionFitness <- calcFitness(FUN, optimType, antlion)
@@ -208,18 +208,18 @@ engine.ALO <- function(FUN, optimType, maxIter, lowerBound, upperBound, antlion,
 		# save the best fitness for iteration t
 		curve[t] <- FbestPos
 		trajectory[[t]] = bestPos
-		# #Entry point for Mitchell
-		# for(xxx in 1:(length(aaa)-1)){
-		#   aaa[xxx] = aaa[xxx+1]
-		# }
-		# aaa[length(aaa)] = FbestPos
-		# if(all(abs(diff(aaa))<= 0.001) == T){
-		#   old_iter = t
-		#   t = maxIter
-		#   break
-		# } else{
-		#   old_iter = t
-		# }
+		#Entry point for Mitchell
+		for(xxx in 1:(length(aaa)-1)){
+		  aaa[xxx] = aaa[xxx+1]
+		}
+		aaa[length(aaa)] = FbestPos
+		if(all(abs(diff(aaa))<= c_value) == T){
+		  old_iter = t
+		  t = maxIter
+		  break
+		} else{
+		  old_iter = t
+		}
 		old_iter = t
 		setTxtProgressBar(progressbar, t)
 	}

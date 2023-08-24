@@ -172,7 +172,7 @@ engineSFL <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidate
     bestId <- c(bestId, head(index[memeplexId == i], n=1))
     worstId <- c(worstId, tail(index[memeplexId == i], n=1))
   }
-  aaa = c(10^(1:50))
+  aaa = c(10^(1:(c_length)))
   trajectory = list()
   curve <- c()
   progressbar <- txtProgressBar(min = 0, max = maxIter, style = 3)
