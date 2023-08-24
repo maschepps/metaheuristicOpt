@@ -117,9 +117,16 @@ SCA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	candidate <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
 
 	# find the best position
-	bestPos <- engine.SCA(FUN, optimType, maxIter, lowerBound, upperBound, candidate)
-
-	return(bestPos)
+# 	answerMitch <- engine.SCA(FUN, optimType, maxIter, lowerBound, upperBound, candidate)
+#   bestPos = answerMitch[[1]]
+#   stopIter = answerMitch[[2]]
+# 	return(list(bestPos, stopIter))
+	answerMitch <- engine.SCA(FUN, optimType, maxIter, lowerBound, upperBound, candidate)
+	bestPos      = answerMitch[[1]]
+	stopIter     = answerMitch[[2]]
+	curve_conv   = answerMitch[[3]]
+	trajectory_conv = answerMitch[[4]]
+	return(list(bestPos, stopIter, curve_conv, trajectory_conv))
 }
 
 ## support function for calculating best position with SCA algorithm
@@ -131,7 +138,10 @@ SCA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 # @param candidate population of candidate
 
 engine.SCA <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidate){
-	# calculate the candidate fitness
+  #Entry point for initialization
+  aaa = c(10^(1:500))
+  trajectory = list()
+  # calculate the candidate fitness
 	candidateFitness <- calcFitness(FUN, optimType, candidate)
 
 	# sort candidate location based on fitness value
@@ -146,8 +156,10 @@ engine.SCA <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidat
 	# curve to plot
 	curve <- c()
 	progressbar <- txtProgressBar(min = 0, max = maxIter, style = 3)
-
-	for (t in 1:maxIter){
+  t = 1
+	# for (t in 1:maxIter){
+	while(t < maxIter){
+	  t = t + 1
 		# value a in eq (3.4)
 		a <- 2
 
@@ -183,13 +195,28 @@ engine.SCA <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidat
 
 		# save the best fitness for iteration t
 		curve[t] <- FbestPos
-
+		trajectory[[t]] = bestPos
+		# #Entry point for Mitchell
+		for(xxx in 1:(length(aaa)-1)){
+		  aaa[xxx] = aaa[xxx+1]
+		}
+		aaa[length(aaa)] = FbestPos
+		if(all(abs(diff(aaa))<= 0.0000000000000000000000000000000000000000001) == T){
+		  print(FbestPos)
+		  print(t)
+		  old_iter = t
+		  t = maxIter
+		  break
+		} else{
+		  old_iter = t
+		}
+		# old_iter = t
 		setTxtProgressBar(progressbar, t)
 	}
 
 	close(progressbar)
 	curve <- curve*optimType
-	# plot(c(1:maxIter), curve, type="l", main="SCA", log="y", xlab="Number Iteration", ylab = "Best Fittness",
-		                  # ylim=c(curve[which.min(curve)],curve[which.max(curve)]))
-	return(bestPos)
+	# plot(c(1:old_iter), curve, type="l", main="SCA", log="y", xlab="Number Iteration", ylab = "Best Fittness",
+	# 	                  ylim=c(curve[which.min(curve)],curve[which.max(curve)]))
+	return(list(bestPos, old_iter, curve, trajectory))
 }
