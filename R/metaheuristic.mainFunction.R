@@ -334,7 +334,7 @@
 #'
 #' @export
 
-metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, control=list(), seed=NULL){
+metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, start, control=list(), seed=NULL){
 
 	## get optimType
 	optimType <- toupper(optimType)
@@ -343,10 +343,17 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	algorithm <- toupper(algorithm)
 
 	## initialize result
-	result <- matrix(ncol=numVar, nrow=length(algorithm))
-
-	## initialize time elapsed
-	timeElapsed <- matrix(ncol=3, nrow=length(algorithm))
+	result       <- matrix(ncol = numVar, nrow=length(algorithm))
+	## initialize Iteration Tracker - addition
+	iterMitch    <- matrix(ncol = 1, nrow = length(algorithm))
+	## initialize time elapsed - addition
+	timeElapsed  <- matrix(ncol = 3, nrow = length(algorithm))
+	## initialize curve of convergence = addition
+	curve_result <- list()
+	
+  ## iniitialize trajectory of convergence
+	## Previous particle Gbest performance
+	trajectory_result <- list()
 
 	## checking consistency between variable numVar and rangeVar
 	if(numVar != ncol(rangeVar) & ncol(rangeVar) != 1){
@@ -373,8 +380,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
-				result[i,] <- PSO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar, Vmax, ci, cg, w)
+				ansMitch2 <- PSO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar, Vmax, ci, cg, w)
 			)
+			result[i,]    = ansMitch2[[1]]
+			iterMitch[i,] = ansMitch2[[2]]
+			curve_result[[i]]  = ansMitch2[[3]]
+			trajectory_result[[i]] = ansMitch2[[4]]
 			temp <- c(temp[1], temp[2], temp[3])
 			timeElapsed[i,]=temp;
 		}
@@ -390,8 +401,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
-				result[i,] <- ALO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+				ansMitch2 <- ALO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 			)
+			result[i,]    = ansMitch2[[1]]
+			iterMitch[i,] = ansMitch2[[2]]
+			curve_result[[i]]  = ansMitch2[[3]]
+			trajectory_result[[i]] = ansMitch2[[4]]
 			temp <- c(temp[1], temp[2], temp[3])
 			timeElapsed[i,]=temp;
 		}
@@ -407,8 +422,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
-				result[i,] <- GWO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+				ansMitch2 <- GWO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 			)
+			result[i,]        = ansMitch2[[1]]
+			iterMitch[i,]     = ansMitch2[[2]]
+			curve_result[[i]] = ansMitch2[[3]]
+			trajectory_result[[i]] = ansMitch2[[4]]
 			temp <- c(temp[1], temp[2], temp[3])
 			timeElapsed[i,]=temp;
 		}
@@ -424,8 +443,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
-				result[i,] <- DA(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+				ansMitch2 <- DA(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 			)
+			result[i,] = ansMitch2[[1]]
+			iterMitch[i,] = ansMitch2[[2]]
+			curve_result[[i]] = ansMitch2[[3]]
+			trajectory_result[[i]] = ansMitch2[[4]]
 			temp <- c(temp[1], temp[2], temp[3])
 			timeElapsed[i,]=temp;
 		}
@@ -444,8 +467,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
-				result[i,] <- FFA(FUN, optimType, numVar, numPopulation, maxIter, rangeVar, B0, gamma, alpha)
+				ansMitch2 <- FFA(FUN, optimType, numVar, numPopulation, maxIter, rangeVar, B0, gamma, alpha)
 			)
+			result[i,]    = ansMitch2[[1]]
+			iterMitch[i,] = ansMitch2[[2]]
+			curve_result[[i]]  = ansMitch2[[3]]
+			trajectory_result[[i]] = ansMitch2[[4]]
 			temp <- c(temp[1], temp[2], temp[3])
 			timeElapsed[i,]=temp;
 		}
@@ -463,8 +490,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
-				result[i,] <- GA(FUN, optimType, numVar, numPopulation, maxIter, rangeVar, Pm, Pc)
+				ansMitch2 <- GA(FUN, optimType, numVar, numPopulation, maxIter, rangeVar, Pm, Pc)
 			)
+			result[i,] = ansMitch2[[1]]
+			iterMitch[i,] = ansMitch2[[2]]
+			curve_result[[i]]  = ansMitch2[[3]]
+			trajectory_result[[i]] = ansMitch2[[4]]
 			temp <- c(temp[1], temp[2], temp[3])
 			timeElapsed[i,]=temp;
 		}
@@ -480,8 +511,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
-				result[i,] <- GOA(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+				ansMitch2 <- GOA(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 			)
+			result[i,]    = ansMitch2[[1]]
+			iterMitch[i,] = ansMitch2[[2]]
+			curve_result[[i]]  = ansMitch2[[3]]
+			trajectory_result[[i]] = ansMitch2[[4]]
 			temp <- c(temp[1], temp[2], temp[3])
 			timeElapsed[i,]=temp;
 		}
@@ -497,8 +532,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
-				result[i,] <- HS(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+				ansMitch2 <- HS(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 			)
+			result[i,]    = ansMitch2[[1]]
+			iterMitch[i,] = ansMitch2[[2]]
+			curve_result[[i]]  = ansMitch2[[3]]
+			trajectory_result[[i]] = ansMitch2[[4]]
 			temp <- c(temp[1], temp[2], temp[3])
 			timeElapsed[i,]=temp;
 		}
@@ -514,8 +553,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
-				result[i,] <- MFO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+				ansMitch2 <- MFO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 			)
+			result[i,]        = ansMitch2[[1]]
+			iterMitch[i,]     = ansMitch2[[2]]
+			curve_result[[i]] = ansMitch2[[3]]
+			trajectory_result[[i]] = ansMitch2[[4]]
 			temp <- c(temp[1], temp[2], temp[3])
 			timeElapsed[i,]=temp;
 		}
@@ -531,8 +574,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
-				result[i,] <- SCA(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+				ansMitch2 <- SCA(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 			)
+			result[i,] = ansMitch2[[1]]
+			iterMitch[i,] = ansMitch2[[2]]
+			curve_result[[i]]  = ansMitch2[[3]]
+			trajectory_result[[i]] = ansMitch2[[4]]
 			temp <- c(temp[1], temp[2], temp[3])
 			timeElapsed[i,]=temp;
 		}
@@ -547,8 +594,13 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
-				result[i,] <- WOA(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+				ansMitch2 <- WOA(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 			)
+			result[i,]        = ansMitch2[[1]]
+			iterMitch[i,]     = ansMitch2[[2]]
+			curve_result[[i]]  = ansMitch2[[3]]
+			trajectory_result[[i]] = ansMitch2[[4]]
+			
 			temp <- c(temp[1], temp[2], temp[3])
 			timeElapsed[i,]=temp;
 		}
@@ -563,8 +615,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 		  # generate result while calculating time elapsed
 		  set.seed(seed)
 		  temp<-system.time(
-		    result[i,] <- CLONALG(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+		    ansMitch2 <- CLONALG(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 		  )
+		  result[i,]    = ansMitch2[[1]]
+		  iterMitch[i,] = ansMitch2[[2]]
+		  curve_result[[i]]  = ansMitch2[[3]]
+		  trajectory_result[[i]] = ansMitch2[[4]]
 		  temp <- c(temp[1], temp[2], temp[3])
 		  timeElapsed[i,]=temp;
 		}
@@ -579,8 +635,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
-	      result[i,] <- ABC(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+	      ansMitch2 <- ABC(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 	    )
+	    result[i,]    = ansMitch2[[1]]
+	    iterMitch[i,] = ansMitch2[[2]]
+	    curve_result[[i]]  = ansMitch2[[3]]
+	    trajectory_result[[i]] = ansMitch2[[4]]
 	    temp <- c(temp[1], temp[2], temp[3])
 	    timeElapsed[i,]=temp;
 	  }
@@ -595,8 +655,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
-	      result[i,] <- BA(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+	      ansMitch2 <- BA(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 	    )
+	    result[i,]    = ansMitch2[[1]]
+	    iterMitch[i,] = ansMitch2[[2]]
+	    curve_result[[i]]  = ansMitch2[[3]]
+	    trajectory_result[[i]] = ansMitch2[[4]]
 	    temp <- c(temp[1], temp[2], temp[3])
 	    timeElapsed[i,]=temp;
 	  }
@@ -611,8 +675,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
-	      result[i,] <- CS(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+	      ansMitch2 <- CS(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 	    )
+	    result[i,]    = ansMitch2[[1]]
+	    iterMitch[i,] = ansMitch2[[2]]
+	    curve_result[[i]]  = ansMitch2[[3]]
+	    trajectory_result[[i]] = ansMitch2[[4]]
 	    temp <- c(temp[1], temp[2], temp[3])
 	    timeElapsed[i,]=temp;
 	  }
@@ -627,8 +695,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
-	      result[i,] <- CSO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+	      ansMitch2 <- CSO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 	    )
+	    result[i,]    = ansMitch2[[1]]
+	    iterMitch[i,] = ansMitch2[[2]]
+	    curve_result[[i]]  = ansMitch2[[3]]
+	    trajectory_result[[i]] = ansMitch2[[4]]
 	    temp <- c(temp[1], temp[2], temp[3])
 	    timeElapsed[i,]=temp;
 	  }
@@ -643,8 +715,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
-	      result[i,] <- DE(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+	      ansMitch2 <- DE(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 	    )
+	    result[i,]    = ansMitch2[[1]]
+	    iterMitch[i,] = ansMitch2[[2]]
+	    curve_result[[i]]  = ansMitch2[[3]]
+	    trajectory_result[[i]] = ansMitch2[[4]]
 	    temp <- c(temp[1], temp[2], temp[3])
 	    timeElapsed[i,]=temp;
 	  }
@@ -659,8 +735,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
-	      result[i,] <- GBS(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+	      ansMitch2 <- GBS(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 	    )
+	    result[i,]    = ansMitch2[[1]]
+	    iterMitch[i,] = ansMitch2[[2]]
+	    curve_result[[i]]  = ansMitch2[[3]]
+	    trajectory_result[[i]] = ansMitch2[[4]]
 	    temp <- c(temp[1], temp[2], temp[3])
 	    timeElapsed[i,]=temp;
 	  }
@@ -675,8 +755,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
-	      result[i,] <- KH(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+	      ansMitch2 <- KH(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 	    )
+	    result[i,]    = ansMitch2[[1]]
+	    iterMitch[i,] = ansMitch2[[2]]
+	    curve_result[[i]]  = ansMitch2[[3]]
+	    trajectory_result[[i]] = ansMitch2[[4]]
 	    temp <- c(temp[1], temp[2], temp[3])
 	    timeElapsed[i,]=temp;
 	  }
@@ -691,8 +775,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
-	      result[i,] <- SFL(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+	      ansMitch2 <- SFL(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 	    )
+	    result[i,]    = ansMitch2[[1]]
+	    iterMitch[i,] = ansMitch2[[2]]
+	    curve_result[[i]]  = ansMitch2[[3]]
+	    trajectory_result[[i]] = ansMitch2[[4]]
 	    temp <- c(temp[1], temp[2], temp[3])
 	    timeElapsed[i,]=temp;
 	  }
@@ -707,8 +795,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
-	      result[i,] <- BHO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
+	      ansMitch2 <- BHO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar)
 	    )
+	    result[i,]    = ansMitch2[[1]]
+	    iterMitch[i,] = ansMitch2[[2]]
+	    curve_result[[i]]  = ansMitch2[[3]]
+	    trajectory_result[[i]] = ansMitch2[[4]]
 	    temp <- c(temp[1], temp[2], temp[3])
 	    timeElapsed[i,]=temp;
 
@@ -728,7 +820,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	rownames(result) <- algorithm
 	rownames(optimumValue) <- algorithm
 	rownames(timeElapsed) <- algorithm
-
+  rownames(iterMitch)   <- algorithm
 	#set name for column
 	colName <- c()
 	for (i in 1:numVar) {
@@ -739,7 +831,12 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	colnames(timeElapsed) <- c("user", "system", "elapsed")
 
 	# build list
-	allResult <- list(result=result, optimumValue=optimumValue, timeElapsed=timeElapsed)
+	allResult <- list(result       = result, 
+	                  optimumValue = optimumValue, 
+	                  timeElapsed  = timeElapsed, 
+	                  stopIter     = iterMitch,
+	                  curve_result = curve_result,
+	                  trajectory   = trajectory_result)
 
 	return(allResult)
 }

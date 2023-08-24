@@ -118,7 +118,9 @@
 #' @export
 
 PSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, Vmax=2, ci=1.49445, cg=1.49445, w=0.729){
-	# calculate the dimension of problem if not specified by user
+	#Hello Bob
+  
+  # calculate the dimension of problem if not specified by user
 	dimension <- ncol(rangeVar)
 
 	# parsing rangeVar to lowerBound and upperBound
@@ -143,12 +145,15 @@ PSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	Lbest <- particles
 
 	# initial velocity of each particle
-	velocity <- generateRandom(numPopulation, dimension, -Vmax, Vmax)
+	velocity <- generateRandom_orig(numPopulation, dimension, -Vmax, Vmax)
 
 	# find the best particle position
-	bestParticle <- engine.PSO(FUN, optimType, maxIter, lowerBound, upperBound, Vmax, ci, cg, w, Gbest, Lbest, particles, velocity)
-
-	return(bestParticle)
+	answerMitch <- engine.PSO(FUN, optimType, maxIter, lowerBound, upperBound, Vmax, ci, cg, w, Gbest, Lbest, particles, velocity)
+  bestParticle = answerMitch[[1]]
+  stopIter     = answerMitch[[2]]
+  curve_conv   = answerMitch[[3]]
+  trajectory_conv = answerMitch[[4]]
+	return(list(bestParticle, stopIter, curve_conv, trajectory_conv))
 }
 
 ## support function for calculating best position with PSO algorithm
@@ -167,12 +172,19 @@ PSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 # @param velocity velocity for particles
 
 engine.PSO <- function(FUN, optimType, maxIter, lowerBound, upperBound, Vmax, ci, cg, w, Gbest, Lbest, particles, velocity){
-	FLbest <- calcFitness(FUN, optimType, Lbest)
+	#Start point for mitchell
+  #Entry point for initialization
+  aaa = c(10^(1:50))
+  FLbest <- calcFitness(FUN, optimType, Lbest)
 	FGbest <- optimType*FUN(Gbest)
 	curve <- c()
+	trajectory = list()
 	progressbar <- txtProgressBar(min = 0, max = maxIter, style = 3)
-	for (t in 1:maxIter){
-		for (i in 1:nrow(particles)){
+	# for (t in 1:maxIter){
+	t = 1
+	while(t < maxIter){
+    t = t + 1
+			for (i in 1:nrow(particles)){
 			for (d in 1:ncol(particles)){
 				# pick random rumber
 				ri <- runif(1)
@@ -209,12 +221,28 @@ engine.PSO <- function(FUN, optimType, maxIter, lowerBound, upperBound, Vmax, ci
 				}
 			}
 		}
+	  # #Entry point for Mitchell
+	  # for(xxx in 1:(length(aaa)-1)){
+	  #   aaa[xxx] = aaa[xxx+1]
+	  # }
+	  # aaa[length(aaa)] = FGbest
+	  # if(all(abs(diff(aaa))<= 0.001) == T){
+	  #   print(FGbest)
+	  #   print(t)
+	  #   old_iter = t
+	  #   t = maxIter
+	  #   break
+	  # } else{
+	  #   old_iter = t
+	  # }
+    old_iter = t
 		curve[t] <- FGbest
+		trajectory[[t]] = Gbest
 		setTxtProgressBar(progressbar, t)
 	}
 	close(progressbar)
 	curve <- curve*optimType
-	## plot(c(1:maxIter), curve, type="l", main="PSO", log="y", xlab="Number Iteration", ylab = "Best Fittness",
-		                  ## ylim=c(curve[which.min(curve)],curve[which.max(curve)]))
-	return(Gbest)
+	#plot(c(1:old_iter), curve, type="l", main="PSO", log="y", xlab="Number Iteration", ylab = "Best Fittness",
+		                  #ylim=c(curve[which.min(curve)],curve[which.max(curve)]))
+	return(list(Gbest, old_iter, curve, trajectory))
 }

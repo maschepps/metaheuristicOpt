@@ -143,17 +143,29 @@ BA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 
   # generate initial population
   candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
-  bestPos <- engineBA(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
-                      maxFrequency, minFrequency, gama, alphaBA)
-
-  return(bestPos)
+  # bestPos <- engineBA(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
+  #                     maxFrequency, minFrequency, gama, alphaBA)
+  # 
+  # return(bestPos)
+  
+  answerMitch <- engineBA(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
+                          maxFrequency, minFrequency, gama, alphaBA)
+  bestPos      = answerMitch[[1]]
+  stopIter     = answerMitch[[2]]
+  curve_conv   = answerMitch[[3]]
+  trajectory_conv = answerMitch[[4]]
+  return(list(bestPos, stopIter, curve_conv, trajectory_conv))
 }
 
 engineBA <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
                      maxFrequency, minFrequency, gama, alpha){
+  #Start point for mitchell
+  #Entry point for initialization
+  aaa = c(10^(1:50))
+  trajectory = list()
   numVar <- ncol(candidateSolution)
   numPopulation <- nrow(candidateSolution)
-
+  curve <- c()
   pf <- matrix(runif(numPopulation * numVar), ncol = numVar)
   velocity <- matrix(rep(0, numPopulation * numVar), ncol = numVar)
   A <- runif(numPopulation)
@@ -180,10 +192,28 @@ engineBA <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidateS
     }
 
     # loudness comparison
-    flyingRandomly <- generateRandom(numPopulation, numVar, lowerBound, upperBound)
+    # flyingRandomly <- generateRandom(numPopulation, numVar, lowerBound, upperBound)
+    flyingRandomly <- generateRandom_orig(numPopulation, numVar, lowerBound, upperBound)
     frFitness <- calcFitness(FUN, optimType, flyingRandomly)
     best <- calcBest(FUN, -1*optimType, rbind(candidateSolution, best))
     bestFitness <- calcFitness(FUN, optimType, matrix(best, ncol = numVar))
+    
+    curve[t] = bestFitness
+    trajectory[[t]] = best
+    # #Entry point for Mitchell
+    # for(xxx in 1:(length(aaa)-1)){
+    #   aaa[xxx] = aaa[xxx+1]
+    # }
+    # aaa[length(aaa)] = bestFitness
+    # if(all(abs(diff(aaa))<= 0.001) == T){
+    #   old_iter = t
+    #   t = maxIter
+    #   break
+    # } else{
+    #   old_iter = t
+    # }
+    old_iter = t
+    
     prob <- frFitness < bestFitness & runif(numPopulation) < A
     if(!all(prob == FALSE)){
       candidateSolution[prob, ] <- flyingRandomly[prob,]
@@ -194,7 +224,10 @@ engineBA <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidateS
     setTxtProgressBar(progressbar, t)
   }
   close(progressbar)
+  
   result <- calcBest(FUN, -1*optimType, rbind(candidateSolution, best))
   result <- checkBound(result, lowerBound, upperBound)
-  return(result)
+  
+
+  return(list(result, old_iter, curve, trajectory))
 }

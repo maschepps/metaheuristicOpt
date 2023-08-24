@@ -128,9 +128,17 @@ DA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 	dragonfly <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
 
 	# find the best position
-	bestPos <- engineDA(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly)
-
-	return(bestPos)
+# 	answerMitch <- engineDA(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly)
+#   bestPos = answerMitch[[1]]
+#   stopIter = answerMitch[[2]]
+# 	return(list(bestPos, stopIter))
+  
+  answerMitch <- engineDA(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly)
+  bestPos      = answerMitch[[1]]
+  stopIter     = answerMitch[[2]]
+  curve_conv   = answerMitch[[3]]
+  trajectory_conv = answerMitch[[4]]
+  return(list(bestPos, stopIter, curve_conv, trajectory_conv))
 }
 
 ## support function for calculating best position with Dragonfly algorithm
@@ -144,7 +152,10 @@ DA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 engineDA <- function(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly){
 	# check length lb and ub
 	# if user only define one lb and ub, then repeat it until the dimension
-	if(length(lowerBound)==1 & length(upperBound)==1){
+  #Entry point for initialization
+  aaa = c(10^(1:50))
+  trajectory = list()
+  if(length(lowerBound)==1 & length(upperBound)==1){
 		lowerBound <- rep(lowerBound,ncol(dragonfly))
 		upperBound <- rep(upperBound,ncol(dragonfly))
 	}
@@ -175,7 +186,10 @@ engineDA <- function(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly)
 
 	# code is translated from MATLAB version
 	# you can found the original
-	for (t in 1:maxIter){
+	# for (t in 1:maxIter){
+	t = 1
+	while(t < maxIter){
+	  t = t + 1
 		# define neighbour distance
 		# increasing for each iteration
 		r <- (upperBound-lowerBound)/4+((upperBound-lowerBound)*(t/maxIter)*2)
@@ -310,7 +324,22 @@ engineDA <- function(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly)
 
 		# save the best fitness for iteration t
 		curve[t] <- Ffood
-
+		trajectory[[t]] <- food
+		# #Entry point for Mitchell
+		# for(xxx in 1:(length(aaa)-1)){
+		#   aaa[xxx] = aaa[xxx+1]
+		# }
+		# aaa[length(aaa)] = Ffood
+		# if(all(abs(diff(aaa))<= 5) == T){
+		#   print(Ffood)
+		#   print(t)
+		#   old_iter = t
+		#   t = maxIter
+		#   break
+		# } else{
+		#   old_iter = t
+		# }
+		old_iter = t
 		setTxtProgressBar(progressbar, t)
 	}
 
@@ -318,7 +347,7 @@ engineDA <- function(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly)
 	curve <- curve*optimType
 	# plot(c(1:maxIter), curve, type="l", main="DA", log="y", xlab="Number Iteration", ylab = "Best Fittness",
 		                  # ylim=c(curve[which.min(curve)],curve[which.max(curve)]))
-	return(food)
+	return(list(food, old_iter, curve, trajectory))
 }
 
 # this function is for calculating the euclidean distance between two grashoper

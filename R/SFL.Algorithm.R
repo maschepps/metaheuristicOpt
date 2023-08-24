@@ -142,9 +142,17 @@ SFL <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
   }
   # initialize candidate solution
   candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
-  bestPos <- engineSFL(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
-                       numMemeplex, frogLeapingIteration)
-  return(bestPos)
+  # bestPos <- engineSFL(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
+  #                      numMemeplex, frogLeapingIteration)
+  # return(bestPos)
+  
+  answerMitch <- engineSFL(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
+                                                 numMemeplex, frogLeapingIteration)
+  bestPos      = answerMitch[[1]]
+  stopIter     = answerMitch[[2]]
+  curve_conv   = answerMitch[[3]]
+  trajectory_conv = answerMitch[[4]]
+  return(list(bestPos, stopIter, curve_conv, trajectory_conv))
 }
 
 engineSFL <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
@@ -164,7 +172,9 @@ engineSFL <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidate
     bestId <- c(bestId, head(index[memeplexId == i], n=1))
     worstId <- c(worstId, tail(index[memeplexId == i], n=1))
   }
-
+  aaa = c(10^(1:50))
+  trajectory = list()
+  curve <- c()
   progressbar <- txtProgressBar(min = 0, max = maxIter, style = 3)
   for(t in 1:maxIter){
     # reshuffle

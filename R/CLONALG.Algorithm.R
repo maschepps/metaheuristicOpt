@@ -149,22 +149,37 @@ CLONALG <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500,
 
   #generate candidate solutions
   candidateSolutions <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
-  bestPos <- engineCLONALG(FUN, optimType, maxIter, rangeVar, lowerBound, upperBound,
-                           selectionSize, multipicationFactor, hypermutationRate, candidateSolutions)
-  return(bestPos)
+  # bestPos <- engineCLONALG(FUN, optimType, maxIter, rangeVar, lowerBound, upperBound,
+  #                          selectionSize, multipicationFactor, hypermutationRate, candidateSolutions)
+  # return(bestPos)
+  
+  answerMitch <- engineCLONALG(FUN, optimType, maxIter, rangeVar, lowerBound, upperBound,
+                               selectionSize, multipicationFactor, hypermutationRate, candidateSolutions)
+  bestPos      = answerMitch[[1]]
+  stopIter     = answerMitch[[2]]
+  curve_conv   = answerMitch[[3]]
+  trajectory_conv = answerMitch[[4]]
+  return(list(bestPos, stopIter, curve_conv, trajectory_conv))
 }
 
 engineCLONALG <- function(FUN, optimType, maxIter, rangeVar, lowerBound, upperBound,
                           selectionSize, multipicationFactor, hypermutationRate,
                           candidateSolution){
+  #Start point for mitchell
+  #Entry point for initialization
+  aaa = c(10^(1:250))
+  trajectory = list()
   numVar <- ncol(candidateSolution)
   numPopulation <- nrow(candidateSolution)
   # evaluate candidate solution
   fitness <- calcFitness(FUN, optimType, candidateSolution)
   candidateSolutions <- data.frame(candidateSolution, fitness)
-
+  curve <- c()
   progressbar <- txtProgressBar(min = 0, max = maxIter, style = 3)
-  for(t in 1:maxIter){
+  t = 1
+  # for (t in 1:maxIter){
+  while(t < maxIter){
+    t = t + 1
     # Select top "selectionSize" with best fitness from candidateSolutions as topSelections
     candidateSolutions <- candidateSolutions[order(candidateSolutions$fitness), ]
     topSelections <- data.matrix(candidateSolutions[1:selectionSize, 1:numVar])
@@ -193,10 +208,30 @@ engineCLONALG <- function(FUN, optimType, maxIter, rangeVar, lowerBound, upperBo
     fitness <- calcFitness(FUN, optimType, candidateSolution)
     candidateSolutions <- rbind(candidateSolutions, data.frame(candidateSolution, fitness))
     candidateSolutions <- candidateSolutions[order(candidateSolutions$fitness), ]
+    curve[t] <- candidateSolutions[1, numVar + 1]
+    # print(dim(candidateSolutions))
+    # print(numVar)
     candidateSolutions <- candidateSolutions[1:numPopulation, ]
-
     setTxtProgressBar(progressbar, t)
+    #Entry point for Mitchell
+    trajectory[[t]] = as.numeric(candidateSolutions[1, 1:numVar])
+    for(xxx in 1:(length(aaa)-1)){
+      aaa[xxx] = aaa[xxx+1]
+    }
+    aaa[length(aaa)] = curve[t]
+    if(all(abs(diff(aaa))<= 0.0000000001) == T){
+      old_iter = t
+      t = maxIter
+      break
+    } else{
+      old_iter = t
+    }
+    # old_iter = t
+    
   }
   close(progressbar)
-  return(unname(calcBest(FUN, optimType, as.matrix(candidateSolutions[, 1:numVar]))))
+  return(list(unname(calcBest(FUN, optimType, as.matrix(candidateSolutions[, 1:numVar]))),
+         old_iter,
+         curve,
+         trajectory))
 }

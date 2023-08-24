@@ -109,9 +109,16 @@ GOA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	grasshopper <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
 
 	# find the best position
-	bestPos <- engineGOA(FUN, optimType, maxIter, lowerBound, upperBound, grasshopper)
-
-	return(bestPos)
+	# bestPos <- engineGOA(FUN, optimType, maxIter, lowerBound, upperBound, grasshopper)
+	# 
+	# return(bestPos)
+	
+	answerMitch <- engineGOA(FUN, optimType, maxIter, lowerBound, upperBound, grasshopper)
+	bestPos      = answerMitch[[1]]
+	stopIter     = answerMitch[[2]]
+	curve_conv   = answerMitch[[3]]
+	trajectory_conv = answerMitch[[4]]
+	return(list(bestPos, stopIter, curve_conv, trajectory_conv))
 }
 
 ## support function for calculating best position with HS algorithm
@@ -123,7 +130,10 @@ GOA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 # @param grasshopper a matrix of grasshopper
 
 engineGOA <- function(FUN, optimType, maxIter, lowerBound, upperBound, grasshopper){
-	state <- 0
+  #Entry point for initialization
+  aaa = c(10^(1:50))
+  trajectory = list()
+  state <- 0
 	dimension <- ncol(grasshopper)
 	mlb <- mean(lowerBound)
 	mub <- mean(upperBound)
@@ -139,7 +149,7 @@ engineGOA <- function(FUN, optimType, maxIter, lowerBound, upperBound, grasshopp
 		dimension <- dimension+1
 		upperBound <- c(upperBound, mub)
 		lowerBound <- c(lowerBound, mlb)
-		grasshopper <- generateRandom(nrow(grasshopper), dimension, lowerBound, upperBound)
+		grasshopper <- generateRandom_orig(nrow(grasshopper), dimension, lowerBound, upperBound)
 		# state indicates that one dimension is added
 		state <- 1
 	}
@@ -166,8 +176,10 @@ engineGOA <- function(FUN, optimType, maxIter, lowerBound, upperBound, grasshopp
 	# curve to plot
 	curve <- c()
 	progressbar <- txtProgressBar(min = 0, max = maxIter, style = 3)
-
+  t = 1
 	for (t in 1:maxIter){
+	# while(t < maxIter){
+	  t = t + 1
 		# balancing the c values for exploration and exploitation
 		c <- Cmax-t*((Cmax-Cmin)/maxIter)
 
@@ -212,10 +224,27 @@ engineGOA <- function(FUN, optimType, maxIter, lowerBound, upperBound, grasshopp
 				FbestPos <- grasshopperFitness[i]
 			}
 		}
-
+		# xxx = length(curve) + 1
+		
+    # print(xxx)
+    # print(FbestPos)
+    # print(bestPos)
 		# save the best fitness for iteration t
 		curve[t] <- FbestPos
-
+		trajectory[[t]] = bestPos
+		# #Entry point for Mitchell
+		# for(xxx in 1:(length(aaa)-1)){
+		#   aaa[xxx] = aaa[xxx+1]
+		# }
+		# aaa[length(aaa)] = FbestPos
+		# if(all(abs(diff(aaa))<= 0.001) == T){
+		#   old_iter = t
+		#   t = maxIter
+		#   break
+		# } else{
+		#   old_iter = t
+		# }
+		old_iter = t
 		setTxtProgressBar(progressbar, t)
 	}
 
@@ -227,7 +256,8 @@ engineGOA <- function(FUN, optimType, maxIter, lowerBound, upperBound, grasshopp
 	curve <- curve*optimType
 	# plot(c(1:maxIter), curve, type="l", main="GOA", log="y", xlab="Number Iteration", ylab = "Best Fittness",
 		                  # ylim=c(curve[which.min(curve)],curve[which.max(curve)]))
-	return(bestPos)
+	# return(bestPos)
+	return(list(bestPos, old_iter, curve, trajectory))
 }
 
 ## support function for calculating distance

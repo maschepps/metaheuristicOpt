@@ -31,11 +31,34 @@ generateRandom <- function(numPopulation, dimension, lowerBound, upperBound){
 	}else{
 		result <- matrix(nrow=numPopulation, ncol=dimension)
 		for (i in 1:dimension){
-			result[,i] = runif(numPopulation, lowerBound[i], upperBound[i])
+			# result[,i] = runif(numPopulation, lowerBound[i], upperBound[i])
+		  result = start
 		}
 	}
 	return(result)
 }
+
+# this function will generate the random number with defined boundary
+# @param numPopulation number population / number row
+# @param dimension number variable / number column
+# @param lowerBound lower bound for each variable
+# @param upperBound upper bound for each variable
+
+generateRandom_orig <- function(numPopulation, dimension, lowerBound, upperBound){
+  result <- matrix()
+  if(length(lowerBound)==1){
+    result <- matrix(runif(numPopulation*dimension, lowerBound, upperBound), nrow=numPopulation, ncol=dimension)
+    
+  }else{
+    result <- matrix(nrow=numPopulation, ncol=dimension)
+    for (i in 1:dimension){
+      result[,i] = runif(numPopulation, lowerBound[i], upperBound[i])
+      # result[,i] = upperBound[i]
+    }
+  }
+  return(result)
+}
+
 
 # this function is for calculating the fitness
 # @param FUN objective function

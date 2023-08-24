@@ -125,12 +125,24 @@ BHO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 
   # generate candidate solution
   candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
-  bestPos <- engineBHO(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution)
-
-  return(bestPos)
+  # bestPos <- engineBHO(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution)
+  # 
+  # return(bestPos)
+  answerMitch <- engineBHO(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution)
+  bestPos      = answerMitch[[1]]
+  stopIter     = answerMitch[[2]]
+  curve_conv   = answerMitch[[3]]
+  trajectory_conv = answerMitch[[4]]
+  return(list(bestPos, stopIter, curve_conv, trajectory_conv))
+  
 }
 
 engineBHO <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution){
+  #Start point for mitchell
+  #Entry point for initialization
+  aaa = c(10^(1:50))
+  trajectory = list()
+  curve <- c()
   numVar <- ncol(candidateSolution)
   numPopulation <- nrow(candidateSolution)
 

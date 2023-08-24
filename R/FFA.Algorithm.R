@@ -128,10 +128,17 @@ FFA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	fireflies <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
 
 	# find the best particle position
-	bestFirefly <- engineFFA(FUN, optimType, maxIter, lowerBound, upperBound, B0, gamma, alphaFFA, fireflies)
-	# pilihan kedua parameter nya diganti jadi list
-
-	return(bestFirefly)
+	# bestFirefly <- engineFFA(FUN, optimType, maxIter, lowerBound, upperBound, B0, gamma, alphaFFA, fireflies)
+	# # pilihan kedua parameter nya diganti jadi list
+	# 
+	# return(bestFirefly)
+	
+	answerMitch <- engineFFA(FUN, optimType, maxIter, lowerBound, upperBound, B0, gamma, alphaFFA, fireflies)
+	bestPos      = answerMitch[[1]]
+	stopIter     = answerMitch[[2]]
+	curve_conv   = answerMitch[[3]]
+	trajectory_conv = answerMitch[[4]]
+	return(list(bestPos, stopIter, curve_conv, trajectory_conv))
 }
 
 ## support function for calculating best position with PSO algorithm
@@ -146,7 +153,10 @@ FFA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 # @param firefly population of candidate solution
 
 engineFFA <- function(FUN, optimType, maxIter, lowerBound, upperBound, B0, gamma, alpha, fireflies){
-	curve <- c()
+  #Entry point for initialization
+  aaa = c(10^(1:50))
+  trajectory = list()
+  curve <- c()
 	# calculate the fitness and sort
 	Light <- calcFitness(FUN, optimType, fireflies)
 	## save the index order
@@ -160,7 +170,10 @@ engineFFA <- function(FUN, optimType, maxIter, lowerBound, upperBound, B0, gamma
 	Best <- fireflies[1,]
 
 	progressbar <- txtProgressBar(min = 0, max = maxIter, style = 3)
-	for (t in 1:maxIter){
+	# for (t in 1:maxIter){
+	t = 1
+	while(t < maxIter){
+	  t = t + 1
 		for (i in 1:nrow(fireflies)) {
 			for (j in 1:nrow(fireflies)) {
 				if (Light[j] < Light[i]){
@@ -191,7 +204,21 @@ engineFFA <- function(FUN, optimType, maxIter, lowerBound, upperBound, B0, gamma
 		Best <- fireflies[bestIndex,]
 		# save best fitness for plot
 		curve[t] <- Light[bestIndex]
-
+		trajectory[[t]] = Best
+		# #Entry point for Mitchell
+		# for(xxx in 1:(length(aaa)-1)){
+		#   aaa[xxx] = aaa[xxx+1]
+		# }
+		# aaa[length(aaa)] = Light[bestIndex]
+		# if(all(abs(diff(aaa))<= 0.001) == T){
+		# 
+		#   old_iter = t
+		#   t = maxIter
+		#   break
+		# } else{
+		#   old_iter = t
+		# }
+		old_iter = t
 		# next progress bar
 		setTxtProgressBar(progressbar, t)
 	}
@@ -199,5 +226,5 @@ engineFFA <- function(FUN, optimType, maxIter, lowerBound, upperBound, B0, gamma
 	curve <- curve*optimType
 	# plot(c(1:maxIter), curve, type="l", main="FFA", log="y", xlab="Number Iteration", ylab = "Best Fittness",
 		                  # ylim=c(curve[which.min(curve)],curve[which.max(curve)]))
-	return(Best)
+	return(list(Best, old_iter, curve, trajectory))
 }

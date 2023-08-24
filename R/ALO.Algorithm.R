@@ -118,9 +118,15 @@ ALO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	ant <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
 
 	# find the best position
-	bestPos <- engine.ALO(FUN, optimType, maxIter, lowerBound, upperBound, antlion, ant)
-
-	return(bestPos)
+	# bestPos <- engine.ALO(FUN, optimType, maxIter, lowerBound, upperBound, antlion, ant)
+	# 
+	# return(bestPos)
+	answerMitch <- engine.ALO(FUN, optimType, maxIter, lowerBound, upperBound, antlion, ant)
+	bestPos      = answerMitch[[1]]
+	stopIter     = answerMitch[[2]]
+	curve_conv   = answerMitch[[3]]
+	trajectory_conv = answerMitch[[4]]
+	return(list(bestPos, stopIter, curve_conv, trajectory_conv))
 }
 
 ## support function for calculating best position with ALO algorithm
@@ -133,7 +139,11 @@ ALO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 # @param ant population of ant
 
 engine.ALO <- function(FUN, optimType, maxIter, lowerBound, upperBound, antlion, ant){
-	# calculate the antlion fitness
+  #Start point for mitchell
+  #Entry point for initialization
+  aaa = c(10^(1:50))
+  trajectory = list()
+  # calculate the antlion fitness
 	antlionFitness <- calcFitness(FUN, optimType, antlion)
 	antFitness <- c() # will count later in iteration process
 
@@ -148,9 +158,13 @@ engine.ALO <- function(FUN, optimType, maxIter, lowerBound, upperBound, antlion,
 
 	# curve to plot
 	curve <- c()
+	trajectory = list()
 	progressbar <- txtProgressBar(min = 0, max = maxIter, style = 3)
 
-	for (t in 1:maxIter){
+	# for (t in 1:maxIter){
+	t = 1
+	while(t < maxIter){
+	  t = t + 1
 		for (i in 1:nrow(ant)){
 			# select an antlion by roulette whell selection
 			roulette.index <- rouletteWhell(1/antlionFitness)
@@ -193,7 +207,20 @@ engine.ALO <- function(FUN, optimType, maxIter, lowerBound, upperBound, antlion,
 		}
 		# save the best fitness for iteration t
 		curve[t] <- FbestPos
-
+		trajectory[[t]] = bestPos
+		# #Entry point for Mitchell
+		# for(xxx in 1:(length(aaa)-1)){
+		#   aaa[xxx] = aaa[xxx+1]
+		# }
+		# aaa[length(aaa)] = FbestPos
+		# if(all(abs(diff(aaa))<= 0.001) == T){
+		#   old_iter = t
+		#   t = maxIter
+		#   break
+		# } else{
+		#   old_iter = t
+		# }
+		old_iter = t
 		setTxtProgressBar(progressbar, t)
 	}
 
@@ -201,7 +228,8 @@ engine.ALO <- function(FUN, optimType, maxIter, lowerBound, upperBound, antlion,
 	curve <- curve*optimType
 	# plot(c(1:maxIter), curve, type="l", main="ALO", log="y", xlab="Number Iteration", ylab = "Best Fittness",
 		                  # ylim=c(curve[which.min(curve)],curve[which.max(curve)]))
-	return(bestPos)
+	# return(bestPos)
+	return(list(bestPos, old_iter, curve, trajectory))
 }
 
 ## support function for doing random walk

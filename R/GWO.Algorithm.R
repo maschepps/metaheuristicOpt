@@ -118,9 +118,12 @@ GWO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	wolf <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
 
 	# find the best position
-	bestPos <- engineGWO(FUN, optimType, maxIter, lowerBound, upperBound, wolf)
-
-	return(bestPos)
+	answerMitch <- engineGWO(FUN, optimType, maxIter, lowerBound, upperBound, wolf)
+  bestPos      = answerMitch[[1]]
+  stopIter     = answerMitch[[2]]
+  curve_conv   = answerMitch[[3]]
+  trajectory_conv = answerMitch[[4]]
+	return(list(bestPos, stopIter, curve_conv, trajectory_conv))
 }
 
 ## support function for calculating best position with GWO algorithm
@@ -132,7 +135,9 @@ GWO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 # @param wolf population of wolf
 
 engineGWO <- function(FUN, optimType, maxIter, lowerBound, upperBound, wolf){
-	# calculate the wolf fitness
+  #Entry point for initialization
+  aaa = c(10^(1:500))
+  # calculate the wolf fitness
 	wolfFitness <- calcFitness(FUN, optimType, wolf)
 
 	# sort wolf location based on fitness value
@@ -152,9 +157,13 @@ engineGWO <- function(FUN, optimType, maxIter, lowerBound, upperBound, wolf){
 
 	# curve to plot
 	curve <- c()
+	trajectory = list()
 	progressbar <- txtProgressBar(min = 0, max = maxIter, style = 3)
 
-	for (t in 1:maxIter){
+	# for (t in 1:maxIter){
+	t = 1
+	while(t < maxIter){
+	  t = t + 1
 		# value a decreased linearly from 2 to 0
 		a <- 2-t*((2)/maxIter)
 
@@ -215,13 +224,25 @@ engineGWO <- function(FUN, optimType, maxIter, lowerBound, upperBound, wolf){
 
 		# save the best fitness for iteration t
 		curve[t] <- Falpha
-
+		trajectory[[t]] <- alpha
+		# #Entry point for Mitchell
+		for(xxx in 1:(length(aaa)-1)){
+		  aaa[xxx] = aaa[xxx+1]
+		}
+		aaa[length(aaa)] = Falpha
+		if(all(abs(diff(aaa))<= 0.000000000000000000000000000000000000000000000001) == T){
+		  old_iter = t
+		  t = maxIter
+		} else{
+		  old_iter = t
+		}
+		# old_iter = t
 		setTxtProgressBar(progressbar, t)
 	}
 
 	close(progressbar)
 	curve <- curve*optimType
-	# plot(c(1:maxIter), curve, type="l", main="GWO", log="y", xlab="Number Iteration", ylab = "Best Fittness",
-		                  # ylim=c(curve[which.min(curve)],curve[which.max(curve)]))
-	return(alpha)
+#	  plot(c(1:old_iter), curve, type="l", main="GWO", log="y", xlab="Number Iteration", ylab = "Best Fittness",
+#		                   ylim=c(curve[which.min(curve)],curve[which.max(curve)]))
+	return(list(alpha, old_iter, curve, trajectory))
 }

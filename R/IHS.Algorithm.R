@@ -131,9 +131,15 @@ HS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 	harmonyMemory <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
 
 	# find the best position
-	bestPos <- engineHS(FUN, optimType, maxIter, lowerBound, upperBound, PAR, HMCR, bandwith, harmonyMemory)
-
-	return(bestPos)
+	# bestPos <- engineHS(FUN, optimType, maxIter, lowerBound, upperBound, PAR, HMCR, bandwith, harmonyMemory)
+	# 
+	# return(bestPos)
+	answerMitch <- engineHS(FUN, optimType, maxIter, lowerBound, upperBound, PAR, HMCR, bandwith, harmonyMemory)
+	bestPos      = answerMitch[[1]]
+	stopIter     = answerMitch[[2]]
+	curve_conv   = answerMitch[[3]]
+	trajectory_conv = answerMitch[[4]]
+	return(list(bestPos, stopIter, curve_conv, trajectory_conv))
 }
 
 ## support function for calculating best position with HS algorithm
@@ -145,7 +151,10 @@ HS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 # @param harmonyMemory a matrix of harmonyMemory
 
 engineHS <- function(FUN, optimType, maxIter, lowerBound, upperBound, PAR, HMCR, bandwith, harmonyMemory){
-	# check length lb and ub
+  #Entry point for initialization
+  aaa = c(10^(1:500))
+  trajectory = list()
+  # check length lb and ub
 	# if user only define one lb and ub, then repeat it until the dimension
 	if(length(lowerBound)==1 & length(upperBound)==1){
 		lowerBound <- rep(lowerBound,ncol(harmonyMemory))
@@ -163,8 +172,10 @@ engineHS <- function(FUN, optimType, maxIter, lowerBound, upperBound, PAR, HMCR,
 	curve <- c()
 	progressbar <- txtProgressBar(min = 0, max = maxIter, style = 3)
 
-
-	for (t in 1:maxIter){
+  t = 1
+	# for (t in 1:maxIter){
+	while(t < maxIter){
+	  t = t + 1
 		# number of new harmonies = number population
 		newHarmonies <- matrix(ncol=ncol(harmonyMemory), nrow=nrow(harmonyMemory))
 
@@ -226,7 +237,20 @@ engineHS <- function(FUN, optimType, maxIter, lowerBound, upperBound, PAR, HMCR,
 
 		# save the best fitness for iteration t
 		curve[t] <- FbestPos
-
+		trajectory[[t]] = bestPos
+		# #Entry point for Mitchell
+		for(xxx in 1:(length(aaa)-1)){
+		  aaa[xxx] = aaa[xxx+1]
+		}
+		aaa[length(aaa)] = FbestPos
+		if(all(abs(diff(aaa))<= 0.00000000000000000000000000000000000000001) == T){
+		  old_iter = t
+		  t = maxIter
+		  break
+		} else{
+		  old_iter = t
+		}
+		# old_iter = t
 		setTxtProgressBar(progressbar, t)
 	}
 
@@ -234,5 +258,6 @@ engineHS <- function(FUN, optimType, maxIter, lowerBound, upperBound, PAR, HMCR,
 	curve <- curve*optimType
 	# plot(c(1:maxIter), curve, type="l", main="IHS", log="y", xlab="Number Iteration", ylab = "Best Fittness",
 		                  # ylim=c(curve[which.min(curve)],curve[which.max(curve)]))
-	return(bestPos)
+	# return(bestPos)
+	return(list(bestPos, old_iter, curve, trajectory))
 }

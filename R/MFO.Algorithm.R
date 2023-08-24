@@ -120,9 +120,17 @@ MFO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	moth <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
 
 	# find the best position
-	bestPos <- engineMFO(FUN, optimType, maxIter, lowerBound, upperBound, moth)
-
-	return(bestPos)
+	# answerMitch <- engineMFO(FUN, optimType, maxIter, lowerBound, upperBound, moth)
+	# bestPos      = answerMitch[[1]]
+	# stopIter     = answerMitch[[2]]
+	# curve_conv   = answerMitch[[3]]
+	# return(list(bestPos, stopIter, curve_conv))
+	answerMitch <- engineMFO(FUN, optimType, maxIter, lowerBound, upperBound, moth)
+	bestPos      = answerMitch[[1]]
+	stopIter     = answerMitch[[2]]
+	curve_conv   = answerMitch[[3]]
+	trajectory_conv = answerMitch[[4]]
+	return(list(bestPos, stopIter, curve_conv, trajectory_conv))
 }
 
 ## support function for calculating best position with MFO algorithm
@@ -134,7 +142,10 @@ MFO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 # @param moth population of moth
 
 engineMFO <- function(FUN, optimType, maxIter, lowerBound, upperBound, moth){
-	# calculate the moth fitness
+  #Entry point for initialization
+  aaa = c(10^(1:50))
+  trajectory = list()
+  # calculate the moth fitness
 	mothFitness <- calcFitness(FUN, optimType, moth)
 
 	# sort moth location based on fitness value
@@ -149,8 +160,10 @@ engineMFO <- function(FUN, optimType, maxIter, lowerBound, upperBound, moth){
 	# curve to plot
 	curve <- c()
 	progressbar <- txtProgressBar(min = 0, max = maxIter, style = 3)
-
-	for (t in 1:maxIter){
+  t = 1
+	# for (t in 1:maxIter){
+	while(t < maxIter){
+	  t = t + 1
 		# number of flames
 		flame_no <- round(nrow(moth)-t*((nrow(moth)-1)/maxIter))
 
@@ -199,14 +212,28 @@ engineMFO <- function(FUN, optimType, maxIter, lowerBound, upperBound, moth){
 		FbestPos <- flameFitness[1]
 
 		# save the best fitness for iteration t
+		trajectory[[t]] = bestPos
 		curve[t] <- FbestPos
-
+		# #Entry point for Mitchell
+		# for(xxx in 1:(length(aaa)-1)){
+		#   aaa[xxx] = aaa[xxx+1]
+		# }
+		# aaa[length(aaa)] = FbestPos
+		# if(all(abs(diff(aaa))<= 0.001) == T){
+		#   old_iter = t
+		#   t = maxIter
+		#   break
+		# } else{
+		#   old_iter = t
+		# }
+		old_iter = t
 		setTxtProgressBar(progressbar, t)
 	}
 
 	close(progressbar)
 	curve <- curve*optimType
-	# plot(c(1:maxIter), curve, type="l", main="MFO", log="y", xlab="Number Iteration", ylab = "Best Fittness",
-		                  # ylim=c(curve[which.min(curve)],curve[which.max(curve)]))
-	return(bestPos)
+#	plot(c(1:old_iter), curve, type="l", main="MFO", log="y", xlab="Number Iteration", ylab = "Best Fittness",
+#		                  ylim=c(curve[which.min(curve)],curve[which.max(curve)]))
+	return(list(bestPos, old_iter, curve, trajectory))
+	
 }
