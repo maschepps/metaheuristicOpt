@@ -122,7 +122,7 @@
 
 # Krill-Heard Algorithm(KH)
 
-KH <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar,
+KH <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value,
                maxMotionInduced=0.01, inertiaWeightOfMotionInduced=0.01, epsilon=1e-05, foragingSpeed=0.02,
                inertiaWeightOfForagingSpeed=0.01, maxDifussionSpeed=0.01, constantSpace=1, mu=0.1){
   # Validation

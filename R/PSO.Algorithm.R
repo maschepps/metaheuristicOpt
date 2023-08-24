@@ -117,7 +117,7 @@
 #' Proceedings of the IEEE Congress on Evolutionary Computation (CEC 1998), Piscataway, NJ. pp. 69-73, 1998
 #' @export
 
-PSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, Vmax=2, ci=1.49445, cg=1.49445, w=0.729){
+PSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value, Vmax=2, ci=1.49445, cg=1.49445, w=0.729){
 	#Hello Bob
   
   # calculate the dimension of problem if not specified by user

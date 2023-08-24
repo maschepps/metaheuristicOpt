@@ -103,7 +103,7 @@
 #' @export
 # Gravitational Based Search Algorithm (GBS)
 
-GBS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar,
+GBS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value,
                 gravitationalConst=max(rangeVar), kbest=0.1){
   # Validation
   if(numPopulation < 1){

@@ -97,7 +97,7 @@
 #' https://doi.org/10.1016/j.advengsoft.2013.12.007
 #' @export
 
-GWO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length){
+GWO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value, c_length, c_value){
 	# calculate the dimension of problem if not specified by user
 	dimension <- ncol(rangeVar)
 
@@ -118,7 +118,7 @@ GWO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	wolf <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
 
 	# find the best position
-	answerMitch <- engineGWO(FUN, optimType, maxIter, lowerBound, upperBound, wolf, c_length)
+	answerMitch <- engineGWO(FUN, optimType, maxIter, lowerBound, upperBound, wolf, c_length, c_value)
   bestPos      = answerMitch[[1]]
   stopIter     = answerMitch[[2]]
   curve_conv   = answerMitch[[3]]
@@ -134,7 +134,7 @@ GWO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 # @param upperBound upper bound for each variable
 # @param wolf population of wolf
 
-engineGWO <- function(FUN, optimType, maxIter, lowerBound, upperBound, wolf, c_length){
+engineGWO <- function(FUN, optimType, maxIter, lowerBound, upperBound, wolf, c_length, c_value){
   #Entry point for initialization
   aaa = c(10^(1:(c_length)))
   # calculate the wolf fitness
@@ -230,7 +230,7 @@ engineGWO <- function(FUN, optimType, maxIter, lowerBound, upperBound, wolf, c_l
 		  aaa[xxx] = aaa[xxx+1]
 		}
 		aaa[length(aaa)] = Falpha
-		if(all(abs(diff(aaa))<= 0.000000000000000000000000000000000000000000000001) == T){
+		if(all(abs(diff(aaa))<= c_value) == T){
 		  old_iter = t
 		  t = maxIter
 		} else{

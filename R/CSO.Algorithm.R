@@ -114,7 +114,7 @@
 #' @export
 # Cat Swarm Optimization (CSO)
 
-CSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar,
+CSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value,
                 mixtureRatio=0.5, tracingConstant=0.1, maximumVelocity=1, smp=as.integer(20), srd=20, cdc=as.integer(numVar), spc=TRUE){
   # Validation
   if(numPopulation < 1){

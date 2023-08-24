@@ -107,7 +107,7 @@
 #' Lecture Notes in Computer Sciences, Vol. 5792, pp. 169-178 (2009).
 #' @export
 
-FFA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, B0=1, gamma=1, alphaFFA=0.2){
+FFA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value, B0=1, gamma=1, alphaFFA=0.2){
 	# calculate the dimension of problem if not specified by user
 	dimension <- ncol(rangeVar)
 

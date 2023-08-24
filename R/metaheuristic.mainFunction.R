@@ -423,7 +423,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
-				ansMitch2 <- GWO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar, c_length, c_value, c_length)
+				ansMitch2 <- GWO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar, c_length, c_value)
 			)
 			result[i,]        = ansMitch2[[1]]
 			iterMitch[i,]     = ansMitch2[[2]]

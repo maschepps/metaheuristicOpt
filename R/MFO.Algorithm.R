@@ -99,7 +99,7 @@
 #'
 #' @export
 
-MFO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar){
+MFO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value){
 	# calculate the dimension of problem if not specified by user
 	dimension <- ncol(rangeVar)
 

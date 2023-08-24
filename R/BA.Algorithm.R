@@ -106,7 +106,7 @@
 #' @export
 # Bat Algorithm (BA)
 
-BA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar,
+BA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value,
                maxFrequency=0.1, minFrequency=-0.1, gama=1, alphaBA=0.1){
   # Validation
   if(numPopulation < 1){

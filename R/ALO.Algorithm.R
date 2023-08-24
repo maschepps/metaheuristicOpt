@@ -96,7 +96,7 @@
 #' https://doi.org/10.1016/j.advengsoft.2015.01.010
 #' @export
 
-ALO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar){
+ALO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value){
 	# calculate the dimension of problem if not specified by user
 	dimension <- ncol(rangeVar)
 

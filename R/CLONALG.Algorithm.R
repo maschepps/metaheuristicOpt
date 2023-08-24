@@ -105,7 +105,7 @@
 #' @export
 # Clonal Selection Algorithm (CLONALG)
 
-CLONALG <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar,
+CLONALG <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value,
                     selectionSize=as.integer(numPopulation/4), multipicationFactor=0.5, hypermutationRate=0.1){
   # Validation
   if(numPopulation < 1){

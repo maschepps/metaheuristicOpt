@@ -98,7 +98,7 @@
 #' @export
 # Artificial Bee Colony Algorithm (ABC)
 
-ABC <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, cycleLimit=as.integer(numVar*numPopulation)){
+ABC <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value, cycleLimit=as.integer(numVar*numPopulation)){
   # Validation
   if(numPopulation < 1){
     stop("numPopulation must greater than 0")
