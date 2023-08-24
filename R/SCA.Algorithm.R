@@ -139,7 +139,7 @@ SCA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 
 engine.SCA <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidate){
   #Entry point for initialization
-  aaa = c(10^(1:500))
+  aaa = c(10^(1:(c_length)))
   trajectory = list()
   # calculate the candidate fitness
 	candidateFitness <- calcFitness(FUN, optimType, candidate)

@@ -152,7 +152,7 @@ HS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 
 engineHS <- function(FUN, optimType, maxIter, lowerBound, upperBound, PAR, HMCR, bandwith, harmonyMemory){
   #Entry point for initialization
-  aaa = c(10^(1:500))
+  aaa = c(10^(1:(c_length)))
   trajectory = list()
   # check length lb and ub
 	# if user only define one lb and ub, then repeat it until the dimension
