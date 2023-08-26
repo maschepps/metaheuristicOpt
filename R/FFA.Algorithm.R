@@ -133,12 +133,12 @@ FFA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	# 
 	# return(bestFirefly)
 	
-	answerMitch <- engineFFA(FUN, optimType, maxIter, lowerBound, upperBound, B0, gamma, alphaFFA, fireflies)
-	bestPos      = answerMitch[[1]]
-	stopIter     = answerMitch[[2]]
-	curve_conv   = answerMitch[[3]]
-	trajectory_conv = answerMitch[[4]]
-	return(list(bestPos, stopIter, curve_conv, trajectory_conv))
+	meta_ans <- engineFFA(FUN, optimType, maxIter, lowerBound, upperBound, B0, gamma, alphaFFA, fireflies)
+	
+	
+	
+	
+	return(meta_ans)
 }
 
 ## support function for calculating best position with PSO algorithm

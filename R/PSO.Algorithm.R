@@ -148,12 +148,11 @@ PSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	velocity <- generateRandom_orig(numPopulation, dimension, -Vmax, Vmax)
 
 	# find the best particle position
-	answerMitch <- engine.PSO(FUN, optimType, maxIter, lowerBound, upperBound, Vmax, ci, cg, w, Gbest, Lbest, particles, velocity)
-  bestParticle = answerMitch[[1]]
-  stopIter     = answerMitch[[2]]
-  curve_conv   = answerMitch[[3]]
-  trajectory_conv = answerMitch[[4]]
-	return(list(bestParticle, stopIter, curve_conv, trajectory_conv))
+	meta_ans <- engine.PSO(FUN, optimType, maxIter, lowerBound, upperBound, Vmax, ci, cg, w, Gbest, Lbest, particles, velocity)
+
+  
+  
+	return(meta_ans)
 }
 
 ## support function for calculating best position with PSO algorithm

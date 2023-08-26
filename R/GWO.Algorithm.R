@@ -118,12 +118,12 @@ GWO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	wolf <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
 
 	# find the best position
-	answerMitch <- engineGWO(FUN, optimType, maxIter, lowerBound, upperBound, wolf, c_length, c_value)
-  bestPos      = answerMitch[[1]]
-  stopIter     = answerMitch[[2]]
-  curve_conv   = answerMitch[[3]]
-  trajectory_conv = answerMitch[[4]]
-	return(list(bestPos, stopIter, curve_conv, trajectory_conv))
+	meta_ans <- engineGWO(FUN, optimType, maxIter, lowerBound, upperBound, wolf, c_length, c_value)
+  
+  
+  
+  
+	return(meta_ans)
 }
 
 ## support function for calculating best position with GWO algorithm

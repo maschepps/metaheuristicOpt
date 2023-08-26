@@ -137,12 +137,12 @@ ABC <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 
   # generate candidate solution
   candidateSolution <- generateRandomABC(numPopulation, numVar, min(lowerBound), max(upperBound))
-  bestPos <- engineABC(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution, cycleLimit)
+  bestPos <- engineABC(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution, cycleLimit, c_length, c_value)
 
   return(bestPos)
 }
 
-engineABC <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution, cycleLimit){
+engineABC <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution, cycleLimit, c_length, c_value){
   #Start point for mitchell
   #Entry point for initialization
   aaa = c(10^(1:(c_length)))

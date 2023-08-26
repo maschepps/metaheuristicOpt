@@ -2,7 +2,7 @@
 :exclamation: This is a read-only mirror of the CRAN R package repository.  metaheuristicOpt — Metaheuristic for Optimization  
 # Fork of metaheuristicOpt: Enhanced Metaheuristic Optimization Algorithms in R
 
-This is a fork of the original `metaheuristicOpt` R package. This fork includes custom features, optimizations, and bug fixes made as part of my PhD thesis. The package aims to provide an even more robust and flexible toolkit for metaheuristic optimization in R.
+This is a fork of the original `metaheuristicOpt` R package. This fork includes custom features made as part of my PhD thesis. The package aims to provide an even more robust, efficient, and flexible toolkit for metaheuristic optimization in R.
 
 ## Table of Contents
 

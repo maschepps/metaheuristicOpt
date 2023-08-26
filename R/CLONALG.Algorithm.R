@@ -153,13 +153,13 @@ CLONALG <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500,
   #                          selectionSize, multipicationFactor, hypermutationRate, candidateSolutions)
   # return(bestPos)
   
-  answerMitch <- engineCLONALG(FUN, optimType, maxIter, rangeVar, lowerBound, upperBound,
+  meta_ans <- engineCLONALG(FUN, optimType, maxIter, rangeVar, lowerBound, upperBound,
                                selectionSize, multipicationFactor, hypermutationRate, candidateSolutions)
-  bestPos      = answerMitch[[1]]
-  stopIter     = answerMitch[[2]]
-  curve_conv   = answerMitch[[3]]
-  trajectory_conv = answerMitch[[4]]
-  return(list(bestPos, stopIter, curve_conv, trajectory_conv))
+  
+  
+  
+  
+  return(meta_ans)
 }
 
 engineCLONALG <- function(FUN, optimType, maxIter, rangeVar, lowerBound, upperBound,

@@ -128,17 +128,17 @@ DA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 	dragonfly <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
 
 	# find the best position
-# 	answerMitch <- engineDA(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly)
-#   bestPos = answerMitch[[1]]
-#   stopIter = answerMitch[[2]]
+# 	meta_ans <- engineDA(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly)
+#   bestPos = meta_ans[[1]]
+#   stopIter = meta_ans[[2]]
 # 	return(list(bestPos, stopIter))
   
-  answerMitch <- engineDA(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly)
-  bestPos      = answerMitch[[1]]
-  stopIter     = answerMitch[[2]]
-  curve_conv   = answerMitch[[3]]
-  trajectory_conv = answerMitch[[4]]
-  return(list(bestPos, stopIter, curve_conv, trajectory_conv))
+  meta_ans <- engineDA(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly)
+  
+  
+  
+  
+  return(meta_ans)
 }
 
 ## support function for calculating best position with Dragonfly algorithm

@@ -148,13 +148,13 @@ BA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
   # 
   # return(bestPos)
   
-  answerMitch <- engineBA(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
+  meta_ans <- engineBA(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
                           maxFrequency, minFrequency, gama, alphaBA)
-  bestPos      = answerMitch[[1]]
-  stopIter     = answerMitch[[2]]
-  curve_conv   = answerMitch[[3]]
-  trajectory_conv = answerMitch[[4]]
-  return(list(bestPos, stopIter, curve_conv, trajectory_conv))
+  
+  
+  
+  
+  return(meta_ans)
 }
 
 engineBA <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,

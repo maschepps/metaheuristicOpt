@@ -146,13 +146,13 @@ SFL <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
   #                      numMemeplex, frogLeapingIteration)
   # return(bestPos)
   
-  answerMitch <- engineSFL(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
+  meta_ans <- engineSFL(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
                                                  numMemeplex, frogLeapingIteration)
-  bestPos      = answerMitch[[1]]
-  stopIter     = answerMitch[[2]]
-  curve_conv   = answerMitch[[3]]
-  trajectory_conv = answerMitch[[4]]
-  return(list(bestPos, stopIter, curve_conv, trajectory_conv))
+  
+  
+  
+  
+  return(meta_ans)
 }
 
 engineSFL <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,

@@ -134,12 +134,12 @@ HS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 	# bestPos <- engineHS(FUN, optimType, maxIter, lowerBound, upperBound, PAR, HMCR, bandwith, harmonyMemory)
 	# 
 	# return(bestPos)
-	answerMitch <- engineHS(FUN, optimType, maxIter, lowerBound, upperBound, PAR, HMCR, bandwith, harmonyMemory)
-	bestPos      = answerMitch[[1]]
-	stopIter     = answerMitch[[2]]
-	curve_conv   = answerMitch[[3]]
-	trajectory_conv = answerMitch[[4]]
-	return(list(bestPos, stopIter, curve_conv, trajectory_conv))
+	meta_ans <- engineHS(FUN, optimType, maxIter, lowerBound, upperBound, PAR, HMCR, bandwith, harmonyMemory, c_length, c_value)
+	
+	
+	
+	
+	return(meta_ans)
 }
 
 ## support function for calculating best position with HS algorithm
@@ -150,7 +150,7 @@ HS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 # @param upperBound upper bound for each variable
 # @param harmonyMemory a matrix of harmonyMemory
 
-engineHS <- function(FUN, optimType, maxIter, lowerBound, upperBound, PAR, HMCR, bandwith, harmonyMemory){
+engineHS <- function(FUN, optimType, maxIter, lowerBound, upperBound, PAR, HMCR, bandwith, harmonyMemory, c_length, c_value){
   #Entry point for initialization
   aaa = c(10^(1:(c_length)))
   trajectory = list()

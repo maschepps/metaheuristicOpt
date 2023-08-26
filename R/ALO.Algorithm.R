@@ -121,12 +121,12 @@ ALO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	# bestPos <- engine.ALO(FUN, optimType, maxIter, lowerBound, upperBound, antlion, ant)
 	# 
 	# return(bestPos)
-	answerMitch <- engine.ALO(FUN, optimType, maxIter, lowerBound, upperBound, antlion, ant)
-	bestPos      = answerMitch[[1]]
-	stopIter     = answerMitch[[2]]
-	curve_conv   = answerMitch[[3]]
-	trajectory_conv = answerMitch[[4]]
-	return(list(bestPos, stopIter, curve_conv, trajectory_conv))
+	meta_ans <- engine.ALO(FUN, optimType, maxIter, lowerBound, upperBound, antlion, ant)
+	
+	
+	
+	
+	return(meta_ans)
 }
 
 ## support function for calculating best position with ALO algorithm
