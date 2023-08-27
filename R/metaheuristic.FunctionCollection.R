@@ -164,3 +164,54 @@ MAE <- function(dataHarga, X){
 	result <- mean(abs(result-value))
 	return(result)
 }
+
+
+## Extract results
+extract_results = function(a1){
+  ##Long-term convergence results graph - Figure 2
+  max_length <- max(unlist(lapply(a1$curve_result,length)))
+  nm_filled <- lapply(a1$curve_result,function(x) {ans <- rep(NA,length=max_length);
+  ans[1:length(x)]<- x;
+  return(ans)})
+  # nm_filled = unlist(a1$curve_result)
+  # nm_matrix = matrix()
+  tj_filled <- lapply(a1$trajectory,function(x) {ans <- rep(NA,length=max_length);
+  ans[1:length(x)]<- x;
+  return(ans)})
+  tj_matrix = matrix(unlist(a1$trajectory), ncol = nrow(dataStudy), byrow = T)
+  
+  time_df = a1$timeElapsed[,1]
+  convergence_results = do.call(rbind, nm_filled) %>%
+    data.frame() %>%
+    cbind(time_df) %>%
+    # pivot_longer(!X1, names_to = 'iteration', values_to = 'criteria', names_prefix = '_') %>%
+    pivot_longer(-c(time_df), 
+                 names_to = 'iteration', 
+                 values_to = 'criteria', 
+                 names_prefix = '_') %>%
+    mutate(iteration2 = as.numeric(substr(iteration, 2, 4)))
+  convergence_results = convergence_results[complete.cases(convergence_results),]
+  #Change to dataframe
+  tj_mat2 = data.frame(tj_matrix) %>%
+    round()
+  extras = data.frame(running_cost = apply(round(tj_mat2), 1, GC),
+                      running_PoS  = apply(round(tj_mat2), 1, FPoS),
+                      numSites     = rowSums(round(tj_mat2)),
+                      numCountries = rowSums(round(tj_mat2) > 0))
+  tj_mat2 = cbind(extras, tj_mat2)
+  # tj_mat2$numSites = rowSums(round(tj_mat2))
+  # tj_mat2$numCountries = rowSums(round(tj_mat2) > 0)
+  # b = cbind(convergence_results, tj_matrix)
+  b = cbind(convergence_results, tj_mat2)
+  # b = rbind(b, b)
+  startPos = c(which(b$iteration == 'X2'), nrow(b))
+  # startPos[1] = startPos[1] - 1
+  startPos[length(startPos)] = startPos[length(startPos)] + 1
+  diff(startPos)
+  # b$algo_run = rep(c(1:each_times), times = c(diff(startPos)))
+  b$algo = rep(c(algos), times = c(diff(startPos)))
+  # rep_run = rep(c(1:each_times), length(unique(algos)))
+  rep_run = 1:length(algos)
+  b$run = rep(c(rep_run), times = c(diff(startPos)))
+  return(b)
+}
