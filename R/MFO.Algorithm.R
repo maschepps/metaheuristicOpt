@@ -120,17 +120,17 @@ MFO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	moth <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
 
 	# find the best position
-	# answerMitch <- engineMFO(FUN, optimType, maxIter, lowerBound, upperBound, moth)
-	# bestPos      = answerMitch[[1]]
-	# stopIter     = answerMitch[[2]]
-	# curve_conv   = answerMitch[[3]]
+	# meta_ans <- engineMFO(FUN, optimType, maxIter, lowerBound, upperBound, moth)
+	# 
+	# 
+	# 
 	# return(list(bestPos, stopIter, curve_conv))
-	answerMitch <- engineMFO(FUN, optimType, maxIter, lowerBound, upperBound, moth)
-	bestPos      = answerMitch[[1]]
-	stopIter     = answerMitch[[2]]
-	curve_conv   = answerMitch[[3]]
-	trajectory_conv = answerMitch[[4]]
-	return(list(bestPos, stopIter, curve_conv, trajectory_conv))
+	meta_ans <- engineMFO(FUN, optimType, maxIter, lowerBound, upperBound, moth)
+	
+	
+	
+	
+	return(meta_ans)
 }
 
 ## support function for calculating best position with MFO algorithm

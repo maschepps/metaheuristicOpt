@@ -110,7 +110,7 @@
 #' https://doi.org/10.1016/j.amc.2006.11.033
 #' @export
 
-HS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value, PAR=0.3, HMCR=0.95, bandwith=0.05){
+HS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, PAR=0.3, HMCR=0.95, bandwith=0.05){
 	# calculate the dimension of problem if not specified by user
 	dimension <- ncol(rangeVar)
 

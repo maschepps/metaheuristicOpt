@@ -117,7 +117,7 @@
 #' Proceedings of the IEEE Congress on Evolutionary Computation (CEC 1998), Piscataway, NJ. pp. 69-73, 1998
 #' @export
 
-PSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value, Vmax=2, ci=1.49445, cg=1.49445, w=0.729){
+PSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, Vmax=2, ci=1.49445, cg=1.49445, w=0.729){
 	#Hello Bob
   
   # calculate the dimension of problem if not specified by user
@@ -148,7 +148,7 @@ PSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	velocity <- generateRandom_orig(numPopulation, dimension, -Vmax, Vmax)
 
 	# find the best particle position
-	meta_ans <- engine.PSO(FUN, optimType, maxIter, lowerBound, upperBound, Vmax, ci, cg, w, Gbest, Lbest, particles, velocity)
+	meta_ans <- engine.PSO(FUN, optimType, maxIter, lowerBound, upperBound, Vmax, ci, cg, w, Gbest, Lbest, particles, velocity, c_length, c_value)
 
   
   
@@ -170,7 +170,7 @@ PSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 # @param particles population of particle
 # @param velocity velocity for particles
 
-engine.PSO <- function(FUN, optimType, maxIter, lowerBound, upperBound, Vmax, ci, cg, w, Gbest, Lbest, particles, velocity){
+engine.PSO <- function(FUN, optimType, maxIter, lowerBound, upperBound, Vmax, ci, cg, w, Gbest, Lbest, particles, velocity, c_length, c_value){
 	#Start point for mitchell
   #Entry point for initialization
   aaa = c(10^(1:(c_length)))

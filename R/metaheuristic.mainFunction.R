@@ -63,10 +63,10 @@
 #'
 #' @param numVar a positive integer to determine the number variables.
 #'
-#' @param rangeVar, c_length, c_value a matrix (\eqn{2 \times n}) containing the range of variables,
+#' @param rangeVar a matrix (\eqn{2 \times n}) containing the range of variables,
 #'        where \eqn{n} is the number of variables, and first and second rows
 #'        are the lower bound (minimum) and upper bound (maximum) values, respectively.
-#'        If all variable have equal upper bound, you can define \code{rangeVar, c_length, c_value} as
+#'        If all variable have equal upper bound, you can define \code{rangeVar} as
 #'        matrix (\eqn{2 \times 1}).
 #'
 #' @param control a list containing all arguments, depending on the algorithm to use. The following list are
@@ -324,7 +324,7 @@
 #' control <- list(numPopulation=40, maxIter=100, Vmax=2, ci=1.49445, cg=1.49445, w=0.729)
 #'
 #' numVar <- 5
-#' rangeVar, c_length, c_value <- matrix(c(-10,10), nrow=2)
+#' rangeVar <- matrix(c(-10,10), nrow=2)
 #'
 #' ## Define control variable
 #' best.variable <- metaOpt(sphere, optimType="MIN", algorithm="PSO", numVar,
@@ -334,7 +334,7 @@
 #'
 #' @export
 
-metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_length, c_value, start, control=list(), seed=NULL){
+metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, control=list(), seed=NULL){
 
 	## get optimType
 	optimType <- toupper(optimType)
@@ -367,7 +367,8 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 		if(algorithm[i] == "PSO"){
 			## checking missing parameters
 			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500,
-						Vmax=2, ci=1.49445, cg=1.49445, w=0.729))
+						Vmax=2, ci=1.49445, cg=1.49445, w=0.729, c_length = 500, c_value = 500,
+						start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
@@ -376,6 +377,9 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 			ci <- control$ci
 			cg <- control$cg
 			w <- control$w
+			c_length = control$c_length
+			c_value = control$c_value
+			start = control$start
 			# c_length = c_length
 
 			# generate result while calculating time elapsed
@@ -393,11 +397,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 		# Ant Lion Optimizer Algorithm
 		else if(algorithm[i] == "ALO"){
 			## checking missing parameters
-			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
 			maxIter <- control$maxIter
+			c_length = control$c_length
+			c_value = control$c_value
+			start = control$start
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -414,11 +422,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 		# Grey Wolf Optimizer Algorithm
 		else if(algorithm[i] == "GWO"){
 			## checking missing parameters
-			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
 			maxIter <- control$maxIter
+			c_length = control$c_length
+			c_value = control$c_value
+			start = control$start
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -435,11 +447,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 		# Dragonfly Algorithm
 		else if(algorithm[i] == "DA"){
 			## checking missing parameters
-			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
 			maxIter <- control$maxIter
+			c_length = control$c_length
+			c_value = control$c_value
+			start = control$start
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -456,7 +472,8 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 		# Firefly Algorithm
 		else if(algorithm[i] == "FFA"){
 			## checking missing parameters
-			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, B0=1, gamma=1, alpha=0.2))
+			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, B0=1, gamma=1, alpha=0.2, c_length = 500, c_value = 500,
+			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
@@ -464,6 +481,9 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 			B0 <- control$B0
 			gamma <- control$gamma
 			alpha <- control$alpha
+			c_length = control$c_length
+			c_value = control$c_value
+			start = control$start
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -480,13 +500,17 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 		# Genetic Algorithm
 		else if(algorithm[i] == "GA"){
 			## checking missing parameters
-			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, Pm=0.1, Pc=0.8))
+			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, Pm=0.1, Pc=0.8, c_length = 500, c_value = 500,
+			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
 			maxIter <- control$maxIter
 			Pm <- control$Pm
 			Pc <- control$Pc
+			c_length = control$c_length
+			c_value = control$c_value
+			start = control$start
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -503,11 +527,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 		# Grasshopper Optimisation Algorithm
 		else if(algorithm[i] == "GOA"){
 			## checking missing parameters
-			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
 			maxIter <- control$maxIter
+			c_length = control$c_length
+			c_value = control$c_value
+			start = control$start
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -524,12 +552,16 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 		# Harmony Search Algorithm
 		else if(algorithm[i] == "HS"){
 			## checking missing parameters
-			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, PAR=0.3, HMCR=0.95, bandwith=0.05))
+			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, PAR=0.3, HMCR=0.95, bandwith=0.05,
+			                                                       c_length = 500, c_value = 500,
+			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
 			maxIter <- control$maxIter
-
+			c_length = control$c_length
+			c_value = control$c_value
+			start = control$start
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
@@ -545,11 +577,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 		# Moth Flame Optimizer
 		else if(algorithm[i] == "MFO"){
 			## checking missing parameters
-			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
 			maxIter <- control$maxIter
+			c_length = control$c_length
+			c_value = control$c_value
+			start = control$start
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -566,11 +602,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 		# Sine Cosine Algorithm
 		else if(algorithm[i] == "SCA"){
 			## checking missing parameters
-			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
 			maxIter <- control$maxIter
+			c_length = control$c_length
+			c_value = control$c_value
+			start = control$start
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -587,11 +627,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 		# Whale Optimization Algorithm
 		else if(algorithm[i] == "WOA"){
 			## checking missing parameters
-			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
 			maxIter <- control$maxIter
+			c_length = control$c_length
+			c_value = control$c_value
+			start = control$start
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
@@ -608,11 +652,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 		# Clonal Selection Algorithm
 		else if(algorithm[i] == "CLONALG"){
 		  ## checking missing parameters
-		  control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+		  control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+		                                                         start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 		  ## get all parameter
 		  numPopulation <- control$numPopulation
 		  maxIter <- control$maxIter
+		  c_length = control$c_length
+		  c_value = control$c_value
+		  start = control$start
 		  # generate result while calculating time elapsed
 		  set.seed(seed)
 		  temp<-system.time(
@@ -628,11 +676,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 	  # Artificial Bee Colony Algorithm
 	  else if(algorithm[i] == "ABC"){
 	    ## checking missing parameters
-	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
 	    maxIter <- control$maxIter
+	    c_length = control$c_length
+	    c_value = control$c_value
+	    start = control$start
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -648,11 +700,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 	  # Bat Algorithm
 	  else if(algorithm[i] == "BA"){
 	    ## checking missing parameters
-	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
 	    maxIter <- control$maxIter
+	    c_length = control$c_length
+	    c_value = control$c_value
+	    start = control$start
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -668,11 +724,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 	  # Cuckoo Search
 	  else if(algorithm[i] == "CS"){
 	    ## checking missing parameters
-	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
 	    maxIter <- control$maxIter
+	    c_length = control$c_length
+	    c_value = control$c_value
+	    start = control$start
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -688,11 +748,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 	  # Cat Swarm Optimization
 	  else if(algorithm[i] == "CSO"){
 	    ## checking missing parameters
-	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
 	    maxIter <- control$maxIter
+	    c_length = control$c_length
+	    c_value = control$c_value
+	    start = control$start
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -708,11 +772,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 	  # Differential Evolution
 	  else if(algorithm[i] == "DE"){
 	    ## checking missing parameters
-	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
 	    maxIter <- control$maxIter
+	    c_length = control$c_length
+	    c_value = control$c_value
+	    start = control$start
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -728,11 +796,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 	  # Gravitational Based Search Algorithm
 	  else if(algorithm[i] == "GBS"){
 	    ## checking missing parameters
-	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
 	    maxIter <- control$maxIter
+	    c_length = control$c_length
+	    c_value = control$c_value
+	    start = control$start
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -748,11 +820,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 	  # Krill-Heard Algorithm
 	  else if(algorithm[i] == "KH"){
 	    ## checking missing parameters
-	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
 	    maxIter <- control$maxIter
+	    c_length = control$c_length
+	    c_value = control$c_value
+	    start = control$start
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -768,11 +844,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 	  # Shuffled Frog Leaping Algorithm
 	  else if(algorithm[i] == "SFL"){
 	    ## checking missing parameters
-	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
 	    maxIter <- control$maxIter
+	    c_length = control$c_length
+	    c_value = control$c_value
+	    start = control$start
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -788,11 +868,15 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, c_l
 	  # Black Hole-based Algorithm
 	  else if(algorithm[i] == "BHO"){
 	    ## checking missing parameters
-	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500))
+	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
+	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
 	    maxIter <- control$maxIter
+	    c_length = control$c_length
+	    c_value = control$c_value
+	    start = control$start
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
