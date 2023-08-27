@@ -96,7 +96,7 @@
 #' https://doi.org/10.1016/j.advengsoft.2015.01.010
 #' @export
 
-ALO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500){
+ALO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])){
 	# calculate the dimension of problem if not specified by user
 	dimension <- ncol(rangeVar)
 
@@ -114,8 +114,8 @@ ALO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	if(optimType == "MAX") optimType <- -1 else optimType <- 1
 
 	# generate initial population of antlion and ant
-	antlion <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
-	ant <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
+	antlion <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
+	ant <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
 
 	# find the best position
 	# bestPos <- engine.ALO(FUN, optimType, maxIter, lowerBound, upperBound, antlion, ant)

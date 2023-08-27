@@ -114,7 +114,7 @@
 #' @export
 # Cat Swarm Optimization (CSO)
 
-CSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500,
+CSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,]),
                 mixtureRatio=0.5, tracingConstant=0.1, maximumVelocity=1, smp=as.integer(20), srd=20, cdc=as.integer(numVar), spc=TRUE){
   # Validation
   if(numPopulation < 1){
@@ -169,7 +169,7 @@ CSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
   }
 
   # generate candidate solution
-  candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
+  candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
   bestPos <- engineCSO(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
                        mixtureRatio, tracingConstant, maximumVelocity, smp, srd, cdc, spc)
   return(bestPos)

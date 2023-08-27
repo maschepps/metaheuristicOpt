@@ -122,7 +122,7 @@
 
 # Krill-Heard Algorithm(KH)
 
-KH <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500,
+KH <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,]),
                maxMotionInduced=0.01, inertiaWeightOfMotionInduced=0.01, epsilon=1e-05, foragingSpeed=0.02,
                inertiaWeightOfForagingSpeed=0.01, maxDifussionSpeed=0.01, constantSpace=1, mu=0.1){
   # Validation
@@ -184,7 +184,7 @@ KH <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
   }
 
   # generate candidate solution
-  candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
+  candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
   bestPos <- engineKH(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
                       maxMotionInduced, inertiaWeightOfMotionInduced, epsilon, foragingSpeed,
                       inertiaWeightOfForagingSpeed, maxDifussionSpeed, constantSpace, mu)

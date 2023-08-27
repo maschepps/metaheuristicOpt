@@ -102,7 +102,7 @@
 #' @export
 # Shuffled Frog Leaping -----
 
-SFL <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500,
+SFL <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,]),
                 numMemeplex=as.integer(numPopulation/3), frogLeapingIteration=as.integer(10)){
   if(numPopulation < 1){
     stop("numPopulation must greater than 0")
@@ -141,7 +141,7 @@ SFL <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
     upperBound <- rep(upperBound, dimension)
   }
   # initialize candidate solution
-  candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
+  candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
   # bestPos <- engineSFL(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
   #                      numMemeplex, frogLeapingIteration)
   # return(bestPos)

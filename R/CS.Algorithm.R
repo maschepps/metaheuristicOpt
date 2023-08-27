@@ -99,7 +99,7 @@
 #' @export
 # Cuckoo Search (CS)
 
-CS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, abandonedFraction=0.5){
+CS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,]), abandonedFraction=0.5){
   # Validation
   if(numPopulation < 1){
     stop("numPopulation must greater than 0")
@@ -136,7 +136,7 @@ CS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
   }
 
   #generate candidate solutions
-  candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
+  candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
   bestPos <- engineCS(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution, abandonedFraction)
 
   return(bestPos)

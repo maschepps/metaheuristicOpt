@@ -107,7 +107,7 @@
 #' Lecture Notes in Computer Sciences, Vol. 5792, pp. 169-178 (2009).
 #' @export
 
-FFA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, B0=1, gamma=1, alphaFFA=0.2){
+FFA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,]), B0=1, gamma=1, alphaFFA=0.2){
 	# calculate the dimension of problem if not specified by user
 	dimension <- ncol(rangeVar)
 
@@ -125,7 +125,7 @@ FFA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	if(optimType == "MAX") optimType <- -1 else optimType <- 1
 
 	# generate initial population of particle
-	fireflies <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
+	fireflies <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
 
 	# find the best particle position
 	# bestFirefly <- engineFFA(FUN, optimType, maxIter, lowerBound, upperBound, B0, gamma, alphaFFA, fireflies)

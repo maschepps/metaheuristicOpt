@@ -106,7 +106,7 @@
 #' @export
 # Bat Algorithm (BA)
 
-BA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500,
+BA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,]),
                maxFrequency=0.1, minFrequency=-0.1, gama=1, alphaBA=0.1){
   # Validation
   if(numPopulation < 1){
@@ -142,7 +142,7 @@ BA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
   if(optimType == "MAX") optimType <- -1 else optimType <- 1
 
   # generate initial population
-  candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
+  candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
   # bestPos <- engineBA(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
   #                     maxFrequency, minFrequency, gama, alphaBA)
   # 

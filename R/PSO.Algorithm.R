@@ -117,7 +117,7 @@
 #' Proceedings of the IEEE Congress on Evolutionary Computation (CEC 1998), Piscataway, NJ. pp. 69-73, 1998
 #' @export
 
-PSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, Vmax=2, ci=1.49445, cg=1.49445, w=0.729){
+PSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,]), Vmax=2, ci=1.49445, cg=1.49445, w=0.729){
 	#Hello Bob
   
   # calculate the dimension of problem if not specified by user
@@ -137,7 +137,7 @@ PSO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	if(optimType == "MAX") optimType <- -1 else optimType <- 1
 
 	# generate initial population of particle
-	particles <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
+	particles <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
 
 	# calculate the initial local best
 	# local best for this step is a global best

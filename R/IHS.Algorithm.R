@@ -110,7 +110,7 @@
 #' https://doi.org/10.1016/j.amc.2006.11.033
 #' @export
 
-HS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, PAR=0.3, HMCR=0.95, bandwith=0.05){
+HS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,]), PAR=0.3, HMCR=0.95, bandwith=0.05){
 	# calculate the dimension of problem if not specified by user
 	dimension <- ncol(rangeVar)
 
@@ -128,7 +128,7 @@ HS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 	if(optimType == "MAX") optimType <- -1 else optimType <- 1
 
 	# generate initial population of harmonyMemory
-	harmonyMemory <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
+	harmonyMemory <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
 
 	# find the best position
 	# bestPos <- engineHS(FUN, optimType, maxIter, lowerBound, upperBound, PAR, HMCR, bandwith, harmonyMemory)

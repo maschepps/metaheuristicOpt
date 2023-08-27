@@ -107,7 +107,7 @@
 #'
 #' @export
 
-DA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500){
+DA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])){
 	# calculate the dimension of problem if not specified by user
 	dimension <- ncol(rangeVar)
 
@@ -125,7 +125,7 @@ DA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 	if(optimType == "MAX") optimType <- -1 else optimType <- 1
 
 	# generate initial population of dragonfly
-	dragonfly <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
+	dragonfly <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
 
 	# find the best position
 # 	meta_ans <- engineDA(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly)

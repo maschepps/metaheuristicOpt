@@ -97,7 +97,7 @@
 #' https://doi.org/10.1016/j.advengsoft.2013.12.007
 #' @export
 
-GWO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500){
+GWO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])){
 	# calculate the dimension of problem if not specified by user
 	dimension <- ncol(rangeVar)
 
@@ -115,7 +115,7 @@ GWO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	if(optimType == "MAX") optimType <- -1 else optimType <- 1
 
 	# generate initial population of wolf
-	wolf <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
+	wolf <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
 
 	# find the best position
 	meta_ans <- engineGWO(FUN, optimType, maxIter, lowerBound, upperBound, wolf, c_length, c_value)

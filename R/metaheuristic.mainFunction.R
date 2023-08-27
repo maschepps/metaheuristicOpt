@@ -379,7 +379,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			w <- control$w
 			c_length = control$c_length
 			c_value = control$c_value
-			start = control$start
+			start_pop = control$start_pop
 			# c_length = c_length
 
 			# generate result while calculating time elapsed
@@ -405,7 +405,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			maxIter <- control$maxIter
 			c_length = control$c_length
 			c_value = control$c_value
-			start = control$start
+			start_pop = control$start_pop
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -430,7 +430,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			maxIter <- control$maxIter
 			c_length = control$c_length
 			c_value = control$c_value
-			start = control$start
+			start_pop = control$start_pop
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -455,7 +455,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			maxIter <- control$maxIter
 			c_length = control$c_length
 			c_value = control$c_value
-			start = control$start
+			start_pop = control$start_pop
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -483,7 +483,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			alpha <- control$alpha
 			c_length = control$c_length
 			c_value = control$c_value
-			start = control$start
+			start_pop = control$start_pop
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -510,7 +510,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			Pc <- control$Pc
 			c_length = control$c_length
 			c_value = control$c_value
-			start = control$start
+			start_pop = control$start_pop
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -535,7 +535,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			maxIter <- control$maxIter
 			c_length = control$c_length
 			c_value = control$c_value
-			start = control$start
+			start_pop = control$start_pop
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -561,7 +561,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			maxIter <- control$maxIter
 			c_length = control$c_length
 			c_value = control$c_value
-			start = control$start
+			start_pop = control$start_pop
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
@@ -585,7 +585,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			maxIter <- control$maxIter
 			c_length = control$c_length
 			c_value = control$c_value
-			start = control$start
+			start_pop = control$start_pop
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -610,7 +610,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			maxIter <- control$maxIter
 			c_length = control$c_length
 			c_value = control$c_value
-			start = control$start
+			start_pop = control$start_pop
 
 			# generate result while calculating time elapsed
 			set.seed(seed)
@@ -635,7 +635,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			maxIter <- control$maxIter
 			c_length = control$c_length
 			c_value = control$c_value
-			start = control$start
+			start_pop = control$start_pop
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
@@ -660,7 +660,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 		  maxIter <- control$maxIter
 		  c_length = control$c_length
 		  c_value = control$c_value
-		  start = control$start
+		  start_pop = control$start_pop
 		  # generate result while calculating time elapsed
 		  set.seed(seed)
 		  temp<-system.time(
@@ -684,7 +684,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    maxIter <- control$maxIter
 	    c_length = control$c_length
 	    c_value = control$c_value
-	    start = control$start
+	    start_pop = control$start_pop
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -708,7 +708,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    maxIter <- control$maxIter
 	    c_length = control$c_length
 	    c_value = control$c_value
-	    start = control$start
+	    start_pop = control$start_pop
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -732,7 +732,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    maxIter <- control$maxIter
 	    c_length = control$c_length
 	    c_value = control$c_value
-	    start = control$start
+	    start_pop = control$start_pop
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -756,7 +756,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    maxIter <- control$maxIter
 	    c_length = control$c_length
 	    c_value = control$c_value
-	    start = control$start
+	    start_pop = control$start_pop
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -780,7 +780,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    maxIter <- control$maxIter
 	    c_length = control$c_length
 	    c_value = control$c_value
-	    start = control$start
+	    start_pop = control$start_pop
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -804,7 +804,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    maxIter <- control$maxIter
 	    c_length = control$c_length
 	    c_value = control$c_value
-	    start = control$start
+	    start_pop = control$start_pop
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -828,7 +828,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    maxIter <- control$maxIter
 	    c_length = control$c_length
 	    c_value = control$c_value
-	    start = control$start
+	    start_pop = control$start_pop
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -852,7 +852,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    maxIter <- control$maxIter
 	    c_length = control$c_length
 	    c_value = control$c_value
-	    start = control$start
+	    start_pop = control$start_pop
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(
@@ -876,7 +876,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	    maxIter <- control$maxIter
 	    c_length = control$c_length
 	    c_value = control$c_value
-	    start = control$start
+	    start_pop = control$start_pop
 	    # generate result while calculating time elapsed
 	    set.seed(seed)
 	    temp<-system.time(

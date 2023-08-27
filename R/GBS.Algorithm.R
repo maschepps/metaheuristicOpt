@@ -103,7 +103,7 @@
 #' @export
 # Gravitational Based Search Algorithm (GBS)
 
-GBS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500,
+GBS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,]),
                 gravitationalConst=max(rangeVar), kbest=0.1){
   # Validation
   if(numPopulation < 1){
@@ -135,7 +135,7 @@ GBS <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
   if(optimType == "MAX") optimType <- -1 else optimType <- 1
 
   # generate initial population
-  candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
+  candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
   bestPos <- engineGBS(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
                        gravitationalConst, kbest)
   return(bestPos)

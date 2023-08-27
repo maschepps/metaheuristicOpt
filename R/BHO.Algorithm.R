@@ -100,7 +100,7 @@
 
 # Black Hole-based Optimization (BHO)
 
-BHO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500){
+BHO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])){
   # calculate the dimension of problem if not specified by user
   dimension <- ncol(rangeVar)
 
@@ -124,7 +124,7 @@ BHO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
   }
 
   # generate candidate solution
-  candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
+  candidateSolution <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
   # bestPos <- engineBHO(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution)
   # 
   # return(bestPos)

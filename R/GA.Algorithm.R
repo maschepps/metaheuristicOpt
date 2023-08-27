@@ -108,7 +108,7 @@
 #' MIT Press, Cambridge, MA, USA.
 #' @export
 
-GA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, Pm=0.1, Pc=0.8){
+GA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,]), Pm=0.1, Pc=0.8){
 	# calculate the dimension of problem if not specified by user
 	dimension <- ncol(rangeVar)
 
@@ -126,7 +126,7 @@ GA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 	if(optimType == "MAX") optimType <- -1 else optimType <- 1
 
 	# generate initial population of candidate
-	candidate <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
+	candidate <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
 
 	# find the best position
 # 	meta_ans <- engineGA(FUN, optimType, maxIter, lowerBound, upperBound, Pm, Pc, candidate)

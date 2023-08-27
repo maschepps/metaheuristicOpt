@@ -23,7 +23,7 @@
 # @param lowerBound lower bound for each variable
 # @param upperBound upper bound for each variable
 
-generateRandom <- function(numPopulation, dimension, lowerBound, upperBound){
+generateRandom <- function(numPopulation, dimension, lowerBound, upperBound, start_pop){
 	result <- matrix()
 	if(length(lowerBound)==1){
 		result <- matrix(runif(numPopulation*dimension, lowerBound, upperBound), nrow=numPopulation, ncol=dimension)
@@ -32,7 +32,7 @@ generateRandom <- function(numPopulation, dimension, lowerBound, upperBound){
 		result <- matrix(nrow=numPopulation, ncol=dimension)
 		for (i in 1:dimension){
 			# result[,i] = runif(numPopulation, lowerBound[i], upperBound[i])
-		  result = start
+		  result = start_pop
 		}
 	}
 	return(result)

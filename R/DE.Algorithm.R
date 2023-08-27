@@ -108,7 +108,7 @@
 #' @export
 # Differential Evolution (DE)
 
-DE <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500,
+DE <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,]),
                scalingVector=0.8, crossOverRate=0.5, strategy="best 1"){
   # Validation
   if(numPopulation < 1){

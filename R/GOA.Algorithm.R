@@ -88,7 +88,7 @@
 #' https://doi.org/10.1016/j.advengsoft.2017.01.004
 #' @export
 
-GOA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500){
+GOA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])){
 	# calculate the dimension of problem if not specified by user
 	dimension <- ncol(rangeVar)
 
@@ -106,7 +106,7 @@ GOA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	if(optimType == "MAX") optimType <- -1 else optimType <- 1
 
 	# generate initial population of grasshopper
-	grasshopper <- generateRandom(numPopulation, dimension, lowerBound, upperBound)
+	grasshopper <- generateRandom(numPopulation, dimension, lowerBound, upperBound, start_pop)
 
 	# find the best position
 	# bestPos <- engineGOA(FUN, optimType, maxIter, lowerBound, upperBound, grasshopper)
