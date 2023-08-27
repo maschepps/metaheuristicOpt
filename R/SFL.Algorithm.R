@@ -102,7 +102,7 @@
 #' @export
 # Shuffled Frog Leaping -----
 
-SFL <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value,
+SFL <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500,
                 numMemeplex=as.integer(numPopulation/3), frogLeapingIteration=as.integer(10)){
   if(numPopulation < 1){
     stop("numPopulation must greater than 0")

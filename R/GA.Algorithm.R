@@ -108,7 +108,7 @@
 #' MIT Press, Cambridge, MA, USA.
 #' @export
 
-GA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value, Pm=0.1, Pc=0.8){
+GA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500, Pm=0.1, Pc=0.8){
 	# calculate the dimension of problem if not specified by user
 	dimension <- ncol(rangeVar)
 

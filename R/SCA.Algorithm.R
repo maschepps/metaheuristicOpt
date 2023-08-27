@@ -96,7 +96,7 @@
 #'
 #' @export
 
-SCA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = c_length, c_value = c_value){
+SCA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rangeVar, c_length = 500, c_value = 500){
 	# calculate the dimension of problem if not specified by user
 	dimension <- ncol(rangeVar)
 
