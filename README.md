@@ -51,7 +51,18 @@ objective_function <- function(x) {
   # Your objective function here
 }
 
+# Define upper and lower bounds for decision variables
+# Upper and Lower Bounds
+
+vecLow = rep(0, 5)
+vecUpp = rep(10, 5)
+rangeV = matrix(t(data.frame(a = vecLow, b = vecUpp)), nrow = 2)
+
 # Define starting population
+## Must be exact dimension of nrow (numPopulation) by ncol (dimension of problem)
+
+start_pop = matrix(rep(vecUpp, 40), nrow = 40, byrow = T)
+
 
 # Choose algorithms to use
 # Can be multiple of same
@@ -69,4 +80,11 @@ results <-  metaOpt(FUN = objective_function,
                            c_length = 5,
                            c_value = 1))
 ```
+## Bugs
+
+### Not every algorithm is compatible with all the newest additions
+
+# ABC still uses generateRandomABC
+
+
 
