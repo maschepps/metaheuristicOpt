@@ -125,88 +125,20 @@ df_results = extract_results(results)
 ## Known Bugs literally
 1. **New functions work with 12/21 originally programmed algorithms. The remaining 9 are untouched.**: 
 
-
-    <style>
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    th, td {
-        border: 1px solid black;
-        padding: 1px;
-    }
-    td {
-        font-size:16px;
-        text-align: left;
-    }
-
-    th {
-        font-size: 16px;
-        font-weight: bold;
-        background-color: lightgray;
-        text-align: center;
-    }
-
-    vertical-line {
-        border-left: 1px solid black;
-    }
-    </style>
-
-    <table>
-    <tr style="text-align:center">
-        <th><strong>Updated Algorithms</strong></th>
-        <th><strong>Non-Updated Algorithms</strong></th>
-    </tr>
-    <tr>
-        <td>Particle Swarm Optimization (PSO)</td>
-        <td>Artificial Bee Colony (ABC)</td>
-    </tr>
-    <tr>
-        <td>Ant Lion Optimizer (ALO)</td>
-        <td>Bat Algorithm (BA)</td>
-    </tr>
-    <tr>
-        <td>Clonal Algorithm (CLONALG)</td>
-        <td>Black Hole Algorithm (BHO)</td>
-    </tr>
-    <tr>
-        <td>Dragonfly Algorithm (DA)</td>
-        <td>Cuckoo Search (CS)</td>
-    </tr>
-    <tr>
-        <td>Firefly Algorithm (FFA)</td>
-        <td>Cat Swarm Optimization (CSO)</td>
-    </tr>
-    <tr>
-        <td>Genetic Algorithm (GA)</td>
-        <td>Differential Evolution (DE)</td>
-    </tr>
-    <tr>
-        <td>Grasshopper Optimization Algorithm (GOA)</td>
-        <td>Gravitational Based Search (GBS)</td>
-    </tr>
-    <tr>
-        <td>Grey Wolf Optimizer (GWO)</td>
-        <td>Krill Herd (KH)</td>
-    </tr>
-    <tr>
-        <td>Harmony Search (HS)</td>
-        <td>Shuffled Frog Leaping (SFL)</td>
-    </tr>
-    <tr>
-        <td>Moth Flame Optimizer (MFO)</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>Sine Cosine Algorithm (SCA)</td>
-        <td></td>
-    </tr>    
-    <tr>
-        <td>Whale Optimization Algorithm (WOA)</td>
-        <td></td>
-    </tr>
-    </table>
+| **Working Algorithms** | **Non-updated Algorithms** |
+| :------------------- | :------------------------ |
+|Particle Swarm Optimization (PSO) | Artificial Bee Colony (ABC) |
+|Ant Lion Optimizer (ALO) | Bat Algorithm (BA) |
+|Clonal Algorithm (CLONALG) | Black Hole Algorithm (BHO) |
+| Dragonfly Algorithm (DA) | Cuckoo Search (CS) |
+| Firefly Algorithm (FFA) | Cat Swarm Optimization (CSO) |
+| Genetic Algorithm (GA) | Differential Evolution (DE) |
+| Grasshopper Optimization Algorithm (GOA) | Gravitational Based Search (GBS) |
+| Grey Wolf Optimizer (GWO) | Krill Herd (KH) |
+| Harmony Search (HS) | Shuffled Frog Leaping (SFL) |
+| Moth Flame Optimizer (MFO) |  |
+| Sine Cosine Algorithm (SCA) |  |
+| Whale Optimization Algorithm (WOA) |  |
 
 
 ## Acknowledgements
