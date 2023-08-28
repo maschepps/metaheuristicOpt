@@ -139,7 +139,6 @@ df_results = extract_results(results)
     td {
         font-size:16px;
         text-align: left;
-
     }
 
     th {
@@ -149,7 +148,7 @@ df_results = extract_results(results)
         text-align: center;
     }
 
-    .vertical-line {
+    vertical-line {
         border-left: 1px solid black;
     }
     </style>
