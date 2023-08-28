@@ -31,7 +31,7 @@ To install this modified version, run the following command in your R environmen
 
 ```R
 # Install from GitHub
-devtools::install_github("maschepps/metaheuristicOpt_fork")
+devtools::install_github("maschepps/metaheuristicOpt")
 ```
 
 ## Usage
