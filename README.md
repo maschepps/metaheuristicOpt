@@ -1,8 +1,5 @@
-# metaheuristicOpt
-:exclamation: This is a read-only mirror of the CRAN R package repository.  metaheuristicOpt — Metaheuristic for Optimization  
-# Fork of metaheuristicOpt: Enhanced Metaheuristic Optimization Algorithms in R
 
-This is a fork of the original `metaheuristicOpt` R package. This original package contains a collection of R coded nature inspired metaheuristics. This fork includes custom features made as part of my PhD thesis. The newest updates aim to provide an even more robust, efficient, and flexible toolkit for metaheuristic optimization in R.
+This is a fork of the original `metaheuristicOpt` R package, Enhanced Metaheuristic Optimization Algorithms in R. This original package contains a collection of R coded nature inspired metaheuristics. This fork includes custom features made as part of my PhD thesis. The newest updates aim to provide an even more robust, efficient, and flexible toolkit for metaheuristic optimization in R.
 
 ## Table of Contents
 
@@ -124,8 +121,94 @@ df_results = extract_results(results)
 
 
 ```
+
 ## Known Bugs literally
-1. **Does not work with all 21 originally programmed algorithms**: ABC still uses generateRandomABC
+1. **New functions work with 12/21 originally programmed algorithms. The remaining 9 are untouched.**: 
+
+
+    <style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 1px;
+    }
+    td {
+        font-size:16px;
+        text-align: left;
+
+    }
+
+    th {
+        font-size: 16px;
+        font-weight: bold;
+        background-color: lightgray;
+        text-align: center;
+    }
+
+    .vertical-line {
+        border-left: 1px solid black;
+    }
+    </style>
+
+    <table>
+    <tr style="text-align:center">
+        <th><strong>Updated Algorithms</strong></th>
+        <th><strong>Non-Updated Algorithms</strong></th>
+    </tr>
+    <tr>
+        <td>Particle Swarm Optimization (PSO)</td>
+        <td>Artificial Bee Colony (ABC)</td>
+    </tr>
+    <tr>
+        <td>Ant Lion Optimizer (ALO)</td>
+        <td>Bat Algorithm (BA)</td>
+    </tr>
+    <tr>
+        <td>Clonal Algorithm (CLONALG)</td>
+        <td>Black Hole Algorithm (BHO)</td>
+    </tr>
+    <tr>
+        <td>Dragonfly Algorithm (DA)</td>
+        <td>Cuckoo Search (CS)</td>
+    </tr>
+    <tr>
+        <td>Firefly Algorithm (FFA)</td>
+        <td>Cat Swarm Optimization (CSO)</td>
+    </tr>
+    <tr>
+        <td>Genetic Algorithm (GA)</td>
+        <td>Differential Evolution (DE)</td>
+    </tr>
+    <tr>
+        <td>Grasshopper Optimization Algorithm (GOA)</td>
+        <td>Gravitational Based Search (GBS)</td>
+    </tr>
+    <tr>
+        <td>Grey Wolf Optimizer (GWO)</td>
+        <td>Krill Herd (KH)</td>
+    </tr>
+    <tr>
+        <td>Harmony Search (HS)</td>
+        <td>Shuffled Frog Leaping (SFL)</td>
+    </tr>
+    <tr>
+        <td>Moth Flame Optimizer (MFO)</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Sine Cosine Algorithm (SCA)</td>
+        <td></td>
+    </tr>    
+    <tr>
+        <td>Whale Optimization Algorithm (WOA)</td>
+        <td></td>
+    </tr>
+    </table>
+
 
 ## Acknowledgements
 This project was done with the help and support of Dr. Weng Kee Wong, UCLA's Department of Biostatistics, and Vladimir Anisimov, Matt Austin, Stephen Gormley, and Behzad Beheshti from Amgen's Center for Design and Analysis.
