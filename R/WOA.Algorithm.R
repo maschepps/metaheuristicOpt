@@ -121,7 +121,7 @@ WOA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	# 
 	# 
 	# return(list(bestPos, stopIter, curve_conv))
-	meta_ans <- engineWOA(FUN, optimType, maxIter, lowerBound, upperBound, whale)
+	meta_ans <- engineWOA(FUN, optimType, maxIter, lowerBound, upperBound, whale, c_length, c_value)
 	
 	
 	
@@ -137,7 +137,7 @@ WOA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 # @param upperBound upper bound for each variable
 # @param whale population of whale
 
-engineWOA <- function(FUN, optimType, maxIter, lowerBound, upperBound, whale){
+engineWOA <- function(FUN, optimType, maxIter, lowerBound, upperBound, whale, c_length, c_value){
   #Entry point for initialization
   aaa = c(10^(1:(c_length)))
   trajectory = list()

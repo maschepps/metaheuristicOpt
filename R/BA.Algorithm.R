@@ -149,7 +149,7 @@ BA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
   # return(bestPos)
   
   meta_ans <- engineBA(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
-                          maxFrequency, minFrequency, gama, alphaBA)
+                          maxFrequency, minFrequency, gama, alphaBA, c_length, c_value)
   
   
   
@@ -158,7 +158,7 @@ BA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 }
 
 engineBA <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution,
-                     maxFrequency, minFrequency, gama, alpha){
+                     maxFrequency, minFrequency, gama, alpha, c_length, c_value){
   #Start point for mitchell
   #Entry point for initialization
   aaa = c(10^(1:(c_length)))
