@@ -121,7 +121,7 @@ ALO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	# bestPos <- engine.ALO(FUN, optimType, maxIter, lowerBound, upperBound, antlion, ant)
 	# 
 	# return(bestPos)
-	meta_ans <- engine.ALO(FUN, optimType, maxIter, lowerBound, upperBound, antlion, ant)
+	meta_ans <- engine.ALO(FUN, optimType, maxIter, lowerBound, upperBound, antlion, ant, c_length, c_value)
 	
 	
 	
@@ -138,7 +138,7 @@ ALO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 # @param antlion population of antlion
 # @param ant population of ant
 
-engine.ALO <- function(FUN, optimType, maxIter, lowerBound, upperBound, antlion, ant){
+engine.ALO <- function(FUN, optimType, maxIter, lowerBound, upperBound, antlion, ant, c_length, c_value){
   #Start point for mitchell
   #Entry point for initialization
   aaa = c(10^(1:(c_length)))

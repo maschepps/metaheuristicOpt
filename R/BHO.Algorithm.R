@@ -128,7 +128,7 @@ BHO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
   # bestPos <- engineBHO(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution)
   # 
   # return(bestPos)
-  meta_ans <- engineBHO(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution)
+  meta_ans <- engineBHO(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution, c_length, c_value)
   
   
   
@@ -137,7 +137,7 @@ BHO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
   
 }
 
-engineBHO <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution){
+engineBHO <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidateSolution, c_length, c_value){
   #Start point for mitchell
   #Entry point for initialization
   aaa = c(10^(1:(c_length)))
@@ -164,7 +164,7 @@ engineBHO <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidate
     isCrossEventHorizon <- abs(fitness - bhFitness) < eventHorizon
     isCrossEventHorizon[order(fitness)[1]] <- F # blackhole exception
     if(!all(isCrossEventHorizon == FALSE)){
-      candidateSolution[isCrossEventHorizon, ] <- generateRandom(length(which(isCrossEventHorizon == TRUE)), numVar, lowerBound, upperBound)
+      candidateSolution[isCrossEventHorizon, ] <- generateRandom_orig(length(which(isCrossEventHorizon == TRUE)), numVar, lowerBound, upperBound)
     }
     setTxtProgressBar(progressbar, t)
   }

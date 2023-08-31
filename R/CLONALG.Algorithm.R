@@ -164,10 +164,10 @@ CLONALG <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500,
 
 engineCLONALG <- function(FUN, optimType, maxIter, rangeVar, lowerBound, upperBound,
                           selectionSize, multipicationFactor, hypermutationRate,
-                          candidateSolution){
+                          candidateSolution, c_length, c_value){
   #Start point for mitchell
   #Entry point for initialization
-  aaa = c(10^(1:250))
+  aaa = c(10^(1:c_length))
   trajectory = list()
   numVar <- ncol(candidateSolution)
   numPopulation <- nrow(candidateSolution)
