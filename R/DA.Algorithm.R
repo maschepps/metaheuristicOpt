@@ -133,7 +133,7 @@ DA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 #   stopIter = meta_ans[[2]]
 # 	return(list(bestPos, stopIter))
   
-  meta_ans <- engineDA(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly)
+  meta_ans <- engineDA(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly, c_length, c_value)
   
   
   
@@ -149,7 +149,7 @@ DA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, rang
 # @param upperBound upper bound for each variable
 # @param dragonfly population of dragonfly
 
-engineDA <- function(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly){
+engineDA <- function(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly, c_length, c_value){
 	# check length lb and ub
 	# if user only define one lb and ub, then repeat it until the dimension
   #Entry point for initialization
@@ -162,7 +162,7 @@ engineDA <- function(FUN, optimType, maxIter, lowerBound, upperBound, dragonfly)
 
 	# boundary of delta
 	deltaMax <- (upperBound-lowerBound)/20
-	delta <- generateRandom(nrow(dragonfly), ncol(dragonfly), -deltaMax, deltaMax)
+	delta <- generateRandom_orig(nrow(dragonfly), ncol(dragonfly), -deltaMax, deltaMax)
 
 	# calculate the dragonfly fitness
 	dragonflyFitness <- calcFitness(FUN, optimType, dragonfly)

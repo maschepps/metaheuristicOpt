@@ -368,7 +368,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			## checking missing parameters
 			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500,
 						Vmax=2, ci=1.49445, cg=1.49445, w=0.729, c_length = 500, c_value = 500,
-						start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+						start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
@@ -385,7 +385,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			# generate result while calculating time elapsed
 			set.seed(seed)
 			temp<-system.time(
-				meta_ans <- PSO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar, Vmax, ci, cg, w, c_length, c_value)
+				meta_ans <- PSO(FUN, optimType, numVar, numPopulation, maxIter, rangeVar, Vmax, ci, cg, w, c_length = c_length,c_value = c_value)
 			)
 			result[i,]    = meta_ans[[1]]
 			iterMitch[i,] = meta_ans[[2]]
@@ -398,7 +398,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 		else if(algorithm[i] == "ALO"){
 			## checking missing parameters
 			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+			                                                       start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
@@ -423,7 +423,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 		else if(algorithm[i] == "GWO"){
 			## checking missing parameters
 			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+			                                                       start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
@@ -448,7 +448,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 		else if(algorithm[i] == "DA"){
 			## checking missing parameters
 			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+			                                                       start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
@@ -473,7 +473,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 		else if(algorithm[i] == "FFA"){
 			## checking missing parameters
 			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, B0=1, gamma=1, alpha=0.2, c_length = 500, c_value = 500,
-			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+			                                                       start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
@@ -501,7 +501,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 		else if(algorithm[i] == "GA"){
 			## checking missing parameters
 			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, Pm=0.1, Pc=0.8, c_length = 500, c_value = 500,
-			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+			                                                       start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
@@ -528,7 +528,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 		else if(algorithm[i] == "GOA"){
 			## checking missing parameters
 			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+			                                                       start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
@@ -554,7 +554,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 			## checking missing parameters
 			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, PAR=0.3, HMCR=0.95, bandwith=0.05,
 			                                                       c_length = 500, c_value = 500,
-			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+			                                                       start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
@@ -578,7 +578,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 		else if(algorithm[i] == "MFO"){
 			## checking missing parameters
 			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+			                                                       start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
@@ -603,7 +603,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 		else if(algorithm[i] == "SCA"){
 			## checking missing parameters
 			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+			                                                       start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
@@ -628,7 +628,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 		else if(algorithm[i] == "WOA"){
 			## checking missing parameters
 			control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-			                                                       start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+			                                                       start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 			## get all parameter
 			numPopulation <- control$numPopulation
@@ -653,7 +653,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 		else if(algorithm[i] == "CLONALG"){
 		  ## checking missing parameters
 		  control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-		                                                         start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+		                                                         start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 		  ## get all parameter
 		  numPopulation <- control$numPopulation
@@ -677,7 +677,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	  else if(algorithm[i] == "ABC"){
 	    ## checking missing parameters
 	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+	                                                           start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
@@ -701,7 +701,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	  else if(algorithm[i] == "BA"){
 	    ## checking missing parameters
 	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+	                                                           start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
@@ -725,7 +725,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	  else if(algorithm[i] == "CS"){
 	    ## checking missing parameters
 	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+	                                                           start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
@@ -749,7 +749,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	  else if(algorithm[i] == "CSO"){
 	    ## checking missing parameters
 	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+	                                                           start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
@@ -773,7 +773,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	  else if(algorithm[i] == "DE"){
 	    ## checking missing parameters
 	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+	                                                           start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
@@ -797,7 +797,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	  else if(algorithm[i] == "GBS"){
 	    ## checking missing parameters
 	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+	                                                           start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
@@ -821,7 +821,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	  else if(algorithm[i] == "KH"){
 	    ## checking missing parameters
 	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+	                                                           start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
@@ -845,7 +845,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	  else if(algorithm[i] == "SFL"){
 	    ## checking missing parameters
 	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+	                                                           start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation
@@ -869,7 +869,7 @@ metaOpt <- function(FUN, optimType="MIN", algorithm="PSO", numVar, rangeVar, con
 	  else if(algorithm[i] == "BHO"){
 	    ## checking missing parameters
 	    control <- setDefaultParametersIfMissing(control, list(numPopulation=40, maxIter=500, c_length = 500, c_value = 500,
-	                                                           start = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
+	                                                           start_pop = generateRandom_orig(40, ncol(rangeVar), rangeVar[1,], rangeVar[2,])))
 
 	    ## get all parameter
 	    numPopulation <- control$numPopulation

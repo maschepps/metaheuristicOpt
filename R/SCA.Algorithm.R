@@ -121,12 +121,9 @@ SCA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 #   bestPos = meta_ans[[1]]
 #   stopIter = meta_ans[[2]]
 # 	return(list(bestPos, stopIter))
-	meta_ans <- engine.SCA(FUN, optimType, maxIter, lowerBound, upperBound, candidate)
+	meta_ans <- engine.SCA(FUN, optimType, maxIter, lowerBound, upperBound, candidate, c_length, c_value)
 	
-	
-	
-	
-	return(meta_ans)
+		return(meta_ans)
 }
 
 ## support function for calculating best position with SCA algorithm
@@ -137,7 +134,7 @@ SCA <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 # @param upperBound upper bound for each variable
 # @param candidate population of candidate
 
-engine.SCA <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidate){
+engine.SCA <- function(FUN, optimType, maxIter, lowerBound, upperBound, candidate, c_length, c_value){
   #Entry point for initialization
   aaa = c(10^(1:(c_length)))
   trajectory = list()

@@ -125,7 +125,7 @@ MFO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 	# 
 	# 
 	# return(list(bestPos, stopIter, curve_conv))
-	meta_ans <- engineMFO(FUN, optimType, maxIter, lowerBound, upperBound, moth)
+	meta_ans <- engineMFO(FUN, optimType, maxIter, lowerBound, upperBound, moth, c_length, c_value)
 	
 	
 	
@@ -141,7 +141,7 @@ MFO <- function(FUN, optimType="MIN", numVar, numPopulation=40, maxIter=500, ran
 # @param upperBound upper bound for each variable
 # @param moth population of moth
 
-engineMFO <- function(FUN, optimType, maxIter, lowerBound, upperBound, moth){
+engineMFO <- function(FUN, optimType, maxIter, lowerBound, upperBound, moth, c_length, c_value){
   #Entry point for initialization
   aaa = c(10^(1:(c_length)))
   trajectory = list()
